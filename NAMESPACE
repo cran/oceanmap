@@ -1,0 +1,34 @@
+
+# Import all packages listed as Imports or Depends
+import("grDevices")
+import("utils")
+importFrom("raster",raster)
+importFrom("raster",extent)
+importFrom("raster",crop)
+importFrom("raster",aggregate)
+importFrom("raster",flip)
+importFrom("raster",brick)
+importFrom("raster",projection)
+importFrom("raster",getValues)
+importFrom("raster",init)
+importFrom("raster",mask)
+
+importFrom("plotrix", color.legend)
+importFrom("fields", image.plot)
+importFrom("abind", abind)
+import("extrafont")
+import("maps")
+import("mapdata")
+import("maptools")
+importFrom("marmap", getNOAA.bathy)
+#import("sp")
+importFrom("stats", setNames)
+#import("rgdal")
+import("methods")
+import("graphics")
+import("ncdf4")
+
+# Export all names
+exportPattern("^[^\\.]")
+
+
