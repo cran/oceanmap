@@ -1,15 +1,19 @@
 \name{cmap}
 \alias{cmap}
+\alias{cmap_topo}
 \docType{data}
 \title{
 color maps 
 }
 \description{
-list holding different color maps that can be used in image plots (see: \link[graphics]{image}, \link[fields]{image.plot}s, \link{v}, \link{clim_plot})
+list holding different color maps that can be used in image plots (see: \link{v}, \link{get.bathy}, \link[graphics]{image}, \link[fields]{image.plot}s, \link{clim_plot})
 
 available color maps are: \code{ano}, \code{bathy}, \code{blue}, \code{chla}, \code{haxby}, \code{jet} (obtained from matlab), \code{rainbow}, \code{red}, \code{orange}, \code{green}, \code{sst} and \code{haxbyrev}.
 }
-\usage{data(cmap)}
+\usage{
+data(cmap)
+data(cmap_topo)
+}
 \format{
   list
 }
@@ -32,6 +36,14 @@ image(x, y, volcano, col = cmap$jet) # jet color map
 image(x, y, volcano, col = cmap$haxby) # haxby color map
 image(x, y, volcano, col = cmap$chla) # chlorophyll color map
 image(x, y, volcano, col = cmap$sst) # sst color map
+
+data(cmap_topo)
+image(x, y, volcano, col = cmap_topo$col) # topography color map
+
+## another example: plot bathymetry and topography of the western Mediterranean Sea
+#get.bathy("medw4",visualize=T,terrain=T,res=3)
+#get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
+
 }
 \keyword{colorbar}
 

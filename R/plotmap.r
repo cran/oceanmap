@@ -44,9 +44,19 @@ plotmap <- function(region=v_area, lon, lat, center='E', add=F,
   
   if(!fill.land) col.land <- NA
   
-  worlddb <- 'worldHires'
-  
+## old:
+#   if(center == 'W'){
+#     if(any(r$xlim < 0)){
+#       r$xlim <- range(r$xlim)
+#       r$xlim <- r$xlim[2:1]
+#       r$xlim[2] <- 180+180+r$xlim[2]
+#     }
+#   }  
+
+# old:
   if(center == 'W'){
+#     r$xlim <- range(180+180+r$xlim)
+#     r$xlim[r$xlim > 360] <- 360
     if(any(r$xlim < 0)){
       r$xlim <- range(r$xlim)
       r$xlim <- r$xlim[2:1]
@@ -58,15 +68,26 @@ plotmap <- function(region=v_area, lon, lat, center='E', add=F,
   lims <- par()$usr
   rect(lims[1],lims[2],lims[3],lims[4],col=col.bg,border = NA)
   
-  if(any(r$xlim > 180)) {
-    #     data(world2HiresMapEnv, envir = environment())
-    #     worlddb <- 'world2Hires'
-    m1 <- maps::map('worldHires', xlim=c(100, 180),plot=F)
-    m2 <- maps::map('worldHires', xlim=c(-180, -60),plot=F)
-    m2$names <- m2$names[which(m2$names %in% c("USA:Alaska:Mitkof Island"))]
-    maps::map('world2Hires', c(m1$names, m2$names), fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
-  }else{
-    maps::map(database=worlddb, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+  if(fill.land){
+    if(any(r$xlim > 180)) {
+#       data("worldmap", envir=environment())
+      worldmap <- .get.worldmap(resolution)
+      maps::map(worldmap, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+    }else{
+      maps::map(database='worldHires', fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+    }
+    #### old code
+    #   if(any(r$xlim > 180)) {
+    #     #     data(world2HiresMapEnv, envir = environment())
+    #     #     worlddb <- 'world2Hires'
+    #     m1 <- maps::map('worldHires', xlim=c(100, 180),plot=F)
+    #     m2 <- maps::map('worldHires', xlim=c(-180, -60),plot=F)
+    #     m2$names <- m2$names[which(m2$names %in% c("USA:Alaska:Mitkof Island"))]
+    #     maps::map('world2Hires', c(m1$names, m2$names), fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+    #   }else{
+    # worlddb <- 'worldHires'
+    #     maps::map(database=worlddb, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+    #   }
   }
   
   #  # overplot landmask outside plotting region

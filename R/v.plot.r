@@ -14,19 +14,19 @@
     adaptive.vals <- F
   }
   
-  cmap <- NULL
-  rm(cmap)
+  cmap <- cmap_topo <- NULL
+  rm(cmap);   rm(cmap_topo)
   data("cmap", envir=environment())
   
   if(missing(pal)) pal <- as.character(param_def$pal1)
   #   if(is.na(pal) | !(pal %in% names(cmap))){
   # warning(paste('"pal" not defined, "jet" selected! available color maps:\n',paste(names(cmap),collapse='\n')))
   # }
-  if(is.na(pal)){
+  if(is.na(pal[1])){
     pal <- "jet"
     warning(paste('"pal" not defined, "jet" selected! available color maps:\n',paste(names(cmap),collapse='\n')))    
   }
-  if(!(pal %in% names(cmap))){
+  if(!(pal[1] %in% names(cmap))){
     warning(paste('presonalized color palette ("pal") selected! Please check also available color maps:\n',paste(names(cmap),collapse='\n')))
     cmap.data <- pal
   }else{
@@ -179,7 +179,7 @@
       #ticks.xpos <- r$cbx[1]+(r$cbx[2]-r$cbx[1])*(ticks+2)/(abs(zlim[2])+abs(ticks[1])) # set tick positions
       b <- log10(b)
       
-    }else{ # linear axis
+    }else{ # linear axis      
       rf <- 10^digits(zlim[2])
       ticks <- ((zlim[1]*rf):(zlim[2]*rf))/rf
       labels <- ticks
@@ -196,14 +196,17 @@
           if(zlim[2] > 500 & zlim[2] <= 1000) fac <- 100
           if(zlim[2] > 1000 & zlim[2] <= 2500) fac <- 250
           if(zlim[2] > 2500) fac <- 500
+          if(diff(zlim) > 2500) fac <- 1000
+          
           labels <- ticks <- seq(round(zlim[1]/fac)*fac,zlim[2],fac)
         }
       }else{
         labels <- ticks <- pretty(zlim,n=nticks)
-        zlim <- range(ticks)
       }
       ticks.xpos <- seq(r$cbx[1],r$cbx[2],length=length(ticks)) # set tick positions
     }
+    zlim <- range(ticks)
+    
     #     }
     
     b[b < zlim[1]] <- zlim[1]
@@ -219,11 +222,16 @@
     # colorbar.plot( 2, 75, 1:256, horizontal=T, col=cmap.data,axis.args=list(at=ticks,labels=labels))
     
     # create black background (for NaN Values), only needed for non arrows
-    if(!v_image) b <- matrix(NA,nrow(b),ncol(b))
-    raster::image(b, xlim=r$xlim,ylim=r$ylim,xlab="", ylab="",axes=F,asp=1)
+    if(!v_image) {
+      b <- matrix(NA,nrow(b),ncol(b))
+      zlim <- c(0,1)
+    }
+    raster::image(b, xlim=r$xlim,ylim=r$ylim,xlab="", ylab="",axes=F,asp=1,zlim=zlim)
     
-    usr <- par("usr")
-    rect(usr[1], usr[3], usr[2], usr[4], col=rgb(cbind(80,80,80)/255), border="black")
+    if(v_image){
+      usr <- par("usr")
+      rect(usr[1], usr[3], usr[2], usr[4], col=rgb(cbind(80,80,80)/255), border="black")
+    }
     
     if(file_def$source == 'dekkar'){
       data(sysdata, envir=environment()) # load medm9_proj projection file
@@ -232,14 +240,27 @@
       
       b <- t(as.matrix(b)[dim(b)[1]:1,])
       image.plot(lon,lat,b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=1,col=cmap.data,zlim=zlim,add=T,legend.mar=1)
-    }else{raster::image(b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=1,col=cmap.data,zlim=zlim,add=T)}
+    }else{
+      if(param == "bathy" & any(zlim < 0)) {
+        
+        data("cmap_topo", envir=environment())
+        #         print("sdsds")
+        jj <- which(cmap_topo$elev >= zlim[1] & cmap_topo$elev <= zlim[2])
+        cmap.data <- cmap_topo$col[jj]
+        pal <- cmap_topo[jj,]
+        fill.land <- FALSE
+        #         if(missing(border)) border <- "black" # does not work if fill.land is set F!
+        if(missing(cb.xlab)) cb.xlab <- "Elevation (m)"
+      }
+      raster::image(b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=1,col=cmap.data,zlim=zlim,add=T)
+    }
   }
   if(!missing(levels)) v_contour <- T
   if(v_contour) {
     if(missing(levels)){
-      contour(bcont,add=T,labels=contour.labels)
+      raster::contour(bcont,add=T,labels=contour.labels,lty="dashed")
     }else{
-      contour(bcont,add=T,levels=levels,labels=contour.labels)
+      raster::contour(bcont,add=T,levels=levels,labels=contour.labels,lty=2:(length(levels)+1))
     }
   }
   if(v_arrows){
@@ -247,6 +268,7 @@
     scale_arrows <- 2.5*zlim_speed[2]/0.4 # needed scale adaption for other regions?
     arrows(x2,y2,x2+scale_arrows*uz2,y2+scale_arrows*vz2, length = 0.05) # plot currents
   }
+  
   plotmap(lon=r$xlim,lat=r$ylim,add=T,fill.land=fill.land,col.land=col.land,col.bg=col.bg,border=border,grid=grid,grid.res=grid.res,
           axeslabels=axeslabels,ticklabels=ticklabels,cex.lab=cex.lab,cex.ticks=cex.ticks,las=las,bwd=bwd) # plot landmask, grid and scale border
   
@@ -260,7 +282,8 @@
     cb.xlab <- parse(text=paste("'",param,"'",units,sep=""))    
     #     cb.xlab <- parse(text=paste("'",param_def$name1,"'",'~',param_def$unit,sep="")) #### old
   }
-  if(missing(cb.title)) cb.title <- bindate2Title(file_def$timestep,file_def$date1,file_def$date2)
+  if(missing(cb.title)) cb.title <- ""
+  #   if(missing(cb.title) & !is.na(file_def$date1)  & !is.na(file_def$date2)) cb.title <- bindate2Title(file_def$timestep,file_def$date1,file_def$date2)
   if(v_image){
     # plot colorbar
     if(show.colorbar){
@@ -270,10 +293,10 @@
     }
   }else{
     # print parameter label
-    text((r$cbx[1]+r$cbx[2])/2,r$cby[1]-4.5*abs(r$cby[2]-r$cby[1]),parse(text=cb.xlab),cex=0.8,xpd=T)
+    #     text((r$cbx[1]+r$cbx[2])/2,r$cby[1]-4.5*abs(r$cby[2]-r$cby[1]),parse(text=cb.xlab),cex=0.8,xpd=T)
     
     # print date
-    text((r$cbx[1]+r$cbx[2])/2,r$cby[2]+2*abs(r$cby[2]-r$cby[1]),cb.title,cex=0.9)
+    #     text((r$cbx[1]+r$cbx[2])/2,r$cby[2]+2*abs(r$cby[2]-r$cby[1]),cb.title,cex=0.9)
   }
   #   if(v_image){
   #     # plot colorbar

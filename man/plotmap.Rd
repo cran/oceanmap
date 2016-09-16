@@ -125,5 +125,10 @@ plotmap(lon=c(110, -110), lat=c(-50, 10)) # default center on lon E
 plotmap(lon=c(110, -110), lat=c(-50, 10), center="W")
 plotmap('tp')
 
+## Example 6: plot bathymetry and topography of the western Mediterranean Sea
+#get.bathy("medw4",visualize=T,terrain=T,res=3)
+#get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
+#get.bathy("lion",visualize=T,terrain=F,res=3,levels=c(200,2000),v_image=F) # show only contours
+
 }
 

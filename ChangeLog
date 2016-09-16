@@ -1,0 +1,5 @@
+oceanmap versions
+
+oceanmap_0.0.2 -- Sept 15, 2016 (Robert Bauer)
+	- update plotmap(), v.plot(), v.raster() and set.colorbar()
+        - update cmap and added cmap_topo

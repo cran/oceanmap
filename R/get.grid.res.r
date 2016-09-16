@@ -6,5 +6,5 @@
     diffs <- abs(min(apply(r[,1:2],2,FUN=diff)))
     grid.res <- apply(as.matrix(diffs),1,FUN=function(x){ a <- (x-grids); b <- tail(grids[which(a >= 0)],1)})
   }
-  return(grid.res)
+  return(grid.res/2)
 }

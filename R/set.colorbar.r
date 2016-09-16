@@ -2,11 +2,11 @@ set.colorbar <- function(cbx,cby,pal='jet',zlim,ticks=1:10,labels=ticks,gradient
                          cex.cb.title=0.9,cex.cb.xlab=0.8,cex.cb.ticks=0.7,
                          cb.ticks.srt=90,cb.ticks.length, cb.ticks.ypos, cb.ticks.lwd=1, integer=F,cb.xlab.line=0,...){
   #   #inst.pkg('plotrix')
-  if(!missing(zlim)) ticks <- pretty(zlim)
+  if(!missing(zlim) & missing(ticks)) ticks <- pretty(zlim)
   cex.cb.title <- cex*cex.cb.title
   cex.cb.xlab <- cex*cex.cb.xlab
   cex.cb.ticks <- cex*cex.cb.ticks
-    
+  
   if(missing(cbx) | missing(cby)) cbx <- cby <- 1
   
   if(length(cbx) != 2 | length(cby) != 2){
@@ -37,6 +37,7 @@ set.colorbar <- function(cbx,cby,pal='jet',zlim,ticks=1:10,labels=ticks,gradient
     if(gradient %in% c('h', 'horizontal')) gradient <- 'y'
   }
   
+  elevs <- c()
   ## testing colorbar values
   if(length(pal) == 1){
     cmap <- NULL
@@ -49,20 +50,31 @@ set.colorbar <- function(cbx,cby,pal='jet',zlim,ticks=1:10,labels=ticks,gradient
     }
     cpalette <- cmap[[pal]]
   }else{
-    cpalette <- pal
+    if(is.vector(pal)){
+      cpalette <- pal
+    }else{
+      cpalette <- pal$col
+      elevs <- pal$elev
+      ###
+    }
   }
   
-  color.legend(cbx[1],cby[1],cbx[2],cby[2],"", cpalette,align="rb",gradient=gradient,xpd=T) #xl,yb,xr,yt
+  plotrix::color.legend(cbx[1],cby[1],cbx[2],cby[2],"", cpalette,align="rb",gradient=gradient,xpd=T) #xl,yb,xr,yt
   
   if(gradient == 'x'){
     oticks <- "b"
     ticks.xpos <- seq(cbx[1],cbx[2],length=length(ticks)) # set tick positions
-    
-    if(integer){ # get centered ticks
-          r <- seq(cbx[1],cbx[2],length.out=length(pal)+1)
-          r2 <- seq(cbx[1],cbx[2],diff(r)[1]/2)
-          ticks.xpos <- r2[which(!(r2 %in% r))]
-          if(missing(labels)) labels <- unique(pal)
+    if(!is.null(elevs)){
+      ticks.xpos <- seq(cbx[1],cbx[2],length=length(elevs)) # set tick positions
+      ticks.xpos <- ticks.xpos[which(elevs %in% ticks)]
+    }else{
+      
+      if(integer){ # get centered ticks
+        r <- seq(cbx[1],cbx[2],length.out=length(pal)+1)
+        r2 <- seq(cbx[1],cbx[2],diff(r)[1]/2)
+        ticks.xpos <- r2[which(!(r2 %in% r))]
+        if(missing(labels)) labels <- unique(pal)
+      }
     }
     
     cby.diff <- min(c(diff(par()$usr[1:2]),diff(par()$usr[3:4])))

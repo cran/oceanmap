@@ -19,12 +19,9 @@ get.bathy(v_area, lon, lat, resolution=4, keep=F ,
   See \link{region_definitions} for area definitions and use \link{add.region} to add new regions.
 }
 
- \item{lon}{
-Vector returning longitude coordinates of the area to be plotted, only valable for \code{x == 'bathy'}.
-}
-  \item{lat}{
-Vector returning latitude coordinates of the area to be plotted, only valable for \code{x == 'bathy'}.
-}
+ \item{lon,lat}{
+ longitude and latitude describing the extend of the region of interest.
+ }
 
   \item{resolution}{
 resolution of the bathymetric grid, in minutes (default is 4).
@@ -79,6 +76,11 @@ lat <- c(53.5, 66)
 ## Example 3: plot landmask of the Baltic Sea defined by an extent- or raster-object
 library('raster')
 ext <- extent(lon,lat)
-#get.bathy(ext,visualize=T,main="Baltic Sea",res=4,levels=200, steps=200) # extent-object
+#get.bathy(ext,visualize=T,main="Baltic Sea",res=4,levels=200) # extent-object
+
+## Example 4: plot bathymetry and topography of the western Mediterranean Sea
+#get.bathy("medw4",visualize=T,terrain=T,res=3)
+#get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
+#get.bathy("lion",visualize=T,terrain=F,res=3,levels=c(200,2000),v_image=F) # show only contours
 
 }

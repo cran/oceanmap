@@ -338,4 +338,9 @@ head(nfiles)
 # plot bathymetric data (obtained from the Leibniz Institute for Baltic Sea Research Warnemuende)
 # v(nfiles[2],varname='bathymetry') # following default plot-procedure
 # v(nfiles[2],varname='bathymetry',pal='haxbyrev',Log=TRUE, cb.xlab='depth [log m]',levels=50)
+
+## Example 11: plot bathymetry and topography of the western Mediterranean Sea
+#get.bathy("medw4",visualize=T,terrain=T,res=3)
+#get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
+#get.bathy("lion",visualize=T,terrain=F,res=3,levels=c(200,2000),v_image=F) # show only contours
 }
