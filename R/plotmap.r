@@ -12,6 +12,8 @@ plotmap <- function(region=v_area, lon, lat, center='E', add=F,
   #   data('worldHiresMapEnv',envir=environment())
   #   getAnywhere('worldHiresMapEnv')
   #   getAnywhere('worldHires')
+  worldHiresMapEnv <- NULL
+  
   show.plot <- T
   if(is.na(col.land) & is.na(fill.land)){
     fill.land <- F
@@ -74,6 +76,7 @@ plotmap <- function(region=v_area, lon, lat, center='E', add=F,
       worldmap <- .get.worldmap(resolution)
       maps::map(worldmap, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
     }else{
+      data('worldHiresMapEnv',envir=environment(),package="mapdata")
       maps::map(database='worldHires', fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
     }
     #### old code

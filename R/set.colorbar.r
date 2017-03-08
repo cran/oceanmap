@@ -1,6 +1,22 @@
-set.colorbar <- function(cbx,cby,pal='jet',zlim,ticks=1:10,labels=ticks,gradient,oticks,cb.title="",cb.xlab="",font=1,cex=1,
+set.colorbar <- function(cbx, cby, cbpos, pal='jet',zlim,ticks=1:10,labels=ticks,gradient,oticks,cb.title="",cb.xlab="",font=1,cex=1,
                          cex.cb.title=0.9,cex.cb.xlab=0.8,cex.cb.ticks=0.7,
                          cb.ticks.srt=90,cb.ticks.length, cb.ticks.ypos, cb.ticks.lwd=1, integer=F,cb.xlab.line=0,...){
+  if(!missing(cbpos)){
+    xlim <- par()$usr[1:2]
+    ylim <- par()$usr[3:4]
+    grads <- c(abs(diff(xlim)),abs(diff(ylim)))
+    
+    if(cbpos == 'h' | cbpos == 'horizontal'){
+      if(missing(cbx)) cbx <- xlim
+      if(missing(cby)) cby <- range(c(ylim[1]-0.22*min(grads),ylim[1]-0.26*min(grads)))
+    }else{
+      if(cbpos == 'v' | cbpos == 'vertical'){
+        if(missing(cbx)) cbx <- c(xlim[2]+0.08*min(grads),xlim[2]+0.12*min(grads))
+        if(missing(cby)) cby <- ylim
+      }
+    }
+  }
+  
   #   #inst.pkg('plotrix')
   if(!missing(zlim) & missing(ticks)) ticks <- pretty(zlim)
   cex.cb.title <- cex*cex.cb.title
@@ -62,6 +78,7 @@ set.colorbar <- function(cbx,cby,pal='jet',zlim,ticks=1:10,labels=ticks,gradient
   plotrix::color.legend(cbx[1],cby[1],cbx[2],cby[2],"", cpalette,align="rb",gradient=gradient,xpd=T) #xl,yb,xr,yt
   
   if(gradient == 'x'){
+    
     oticks <- "b"
     ticks.xpos <- seq(cbx[1],cbx[2],length=length(ticks)) # set tick positions
     if(!is.null(elevs)){
@@ -81,6 +98,7 @@ set.colorbar <- function(cbx,cby,pal='jet',zlim,ticks=1:10,labels=ticks,gradient
     pos <- get.cb.pos(cbx,cby,oticks)
     if(!missing(cb.ticks.ypos)) pos$ticks.lab <- cb.ticks.ypos
     if(!missing(cb.ticks.length)) pos$ticks.length <- cb.ticks.length
+    
     if(pos$ticks.length[1] != 0) for(n in 1:length(ticks)) lines(c(ticks.xpos[n],ticks.xpos[n]),pos$ticks.length,xpd=T)
     for(n in 1:length(ticks)) text(ticks.xpos[n],pos$ticks.lab,labels[n],cex=cex.cb.ticks,xpd=T) #plot labels
     

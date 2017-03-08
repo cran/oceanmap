@@ -44,7 +44,7 @@ whether the bathymetric data should be plotted instantly.
 }
 
   \item{terrain}{
-whether the to keep terrain data (default is \code{FALSE}.
+whether the to keep terrain data (default is \code{FALSE}).
 }
 
   \item{...}{

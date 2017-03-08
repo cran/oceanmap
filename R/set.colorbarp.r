@@ -9,6 +9,7 @@ set.colorbarp <- function(cbxp,cbyp,total.reg=T,...){
     par(new=T,mar=c(0,0,0,0),xaxs='i',yaxs='i')
   }
   empty.plot(xlim=c(0,1),ylim=c(0,1))
+  
   set.colorbar(cbx=cbxp,cby=cbyp,...)
   if(total.reg) suppressWarnings(par(opar))
 }

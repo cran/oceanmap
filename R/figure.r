@@ -39,7 +39,7 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     f <- fonts()
     if(length(f) == 0) font_import()
     # loadfonts() ## for pdf()
-    loadfonts(device = "postscript") ## for postscript
+    loadfonts(device = "postscript",quiet=TRUE) ## for postscript
   }
   if(units == "cm"){
     width <- 0.393701*width
@@ -70,7 +70,7 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     f <- fonts()
     if(length(f) == 0) font_import()
     # loadfonts() ## for pdf()
-    loadfonts(device = "postscript") ## for postscript
+    loadfonts(device = "postscript",quiet = TRUE) ## for postscript
   }
   if(units == "cm"){
     width <- 0.393701*width
@@ -101,7 +101,7 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     f <- fonts()
     if(length(f) == 0) font_import()
     # loadfonts() ## for cairo_pdf()
-    loadfonts() ## for postscript
+    loadfonts(quiet = TRUE) ## for postscript
   }
   d <- format(Sys.Date(),format='%Y%m%d')
   owd <- getwd()

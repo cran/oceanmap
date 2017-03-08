@@ -2,7 +2,7 @@
 # inst.pkg(mapdata)
 
 .get.worldmap <- function(resolution){
-  data('worldHiresMapEnv',envir=environment())
+  data('worldHiresMapEnv',envir=environment(),package="mapdata")
   
   
   resolution <- 0

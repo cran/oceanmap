@@ -10,7 +10,7 @@ Adds colorbar to an extisting plot device
 Adds colorbar to an extisting plot device. If position vectors are not provided, the user will be asked to define the colorbar placement by the mouse cursor.
 }
 \usage{
-set.colorbar(cbx, cby, pal='jet', zlim, ticks=1:10, labels=ticks, gradient, 
+set.colorbar(cbx, cby, cbpos, pal='jet', zlim, ticks=1:10, labels=ticks, gradient, 
              oticks, cb.title="", cb.xlab="", font=1, cex=1, 
              cex.cb.title=0.9, cex.cb.xlab=0.8, cex.cb.ticks=0.7, cb.ticks.srt=90, 
              cb.ticks.length, cb.ticks.ypos, cb.ticks.lwd=1, 
@@ -28,6 +28,11 @@ set.colorbarp(cbxp, cbyp, total.reg, ...)
  (\code{set.colorparp}-arguments)
  the horizontal and vertical limits of the colorbar in percent. If missing, the user will be asked for manual colorbar placement.
 }
+
+  \item{cbpos}{
+ character string indicating whether the default horizontal ('h' or 'horizontal') or vertical ('v' or 'vertical') colorbar should be plotted. Overwrites \code{cbx} and \code{cby} values.
+}
+
   \item{total.reg}{
 (\code{set.colorparp}-argument)
 if colorbar placement is relative to current subplot or entire figure region.

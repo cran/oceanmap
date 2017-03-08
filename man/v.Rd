@@ -152,7 +152,7 @@ character string indicating the parameter name for the dataset treatment. See \c
 }
 
 \item{\code{pal}}{
-  color map to be plotted (defualt is the 'jet'-colormap, or in case of \code{'.gz'}-files derived from the \link{parameter_definitions}-dataset. See \link{cmap} for available color maps and \link{parameter_definitions} for predefined colormaps for different parameters.)
+  color map to be plotted (default is the 'jet'-colormap, or in case of \code{'.gz'}-files derived from the \link{parameter_definitions}-dataset. See \link{cmap} for available color maps and \link{parameter_definitions} for predefined colormaps for different parameters.)
 }
 
 \item{\code{sidelabels}}{

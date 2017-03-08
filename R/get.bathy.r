@@ -36,17 +36,21 @@ v.bathy <- get.bathy <- function(v_area,lon,lat,resolution=4, keep=F, savename.b
     load(savename)
   }else{
     cat('loading bathymetry data at a resolution of',resolution ,"degrees\n")
-    bathy <- getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
-                           resolution = resolution)   
+#     bathy <- getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
+#                            resolution = resolution)   
+    
+    bathy <- .getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
+                           resolution = resolution)
+    
     h <- bathy
     h <- t(h[])[ncol(h):1,]
-    h <- raster(h)
-    raster::extent(h) <- raster::extent(c(lon,lat))
-    raster::projection(h) <- "+proj=longlat"
     if(!terrain){
       h[h > 0] <- NA
       h <- -1*h
     }
+    h <- raster(h)
+    raster::extent(h) <- raster::extent(c(lon,lat))
+    raster::projection(h) <- "+proj=longlat"
   }
   if(keep) {
     save(h, file=savename)
