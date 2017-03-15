@@ -5,7 +5,7 @@ adding a region to the \link{region_definitions} file}
 \description{
 adding a region to the \link{region_definitions}-file, taking or restoring a backup of region definitions. The basic idea is to provide a region-keyword that is used to access the region-information in later related function-calls (see: \link{v} and \link{plotmap}, \link{regions}). Information consists of a region-keyword, -longname, its spatial extent (longitudes and latitudes), grid resolution, as well as default colorbar position and figure size. 
 
-The required information can be provided by a \bold{widget} that leads step by step through the region definition (is set \code{default}), in parts by an \link[raster]{extent}-object with the missing information then completed by the \bold{widget} or by a one-row data frame that holds the entire information (see: \link{region_definitions}). 
+The required information can be provided by an interactive \bold{session} (widget) that leads step by step through the region definition (is set \code{default}), in parts by an \link[raster]{extent}-object with the missing information then completed by the \bold{session} or by a one-row data frame that holds the entire information (see: \link{region_definitions}). 
 
 \bold{ATTENTION!} When reinstalling or updating the oceanmap package, previous region definitions are getting lost! It is therefore highly recommanded to take and restore own backups (see: \code{backup} and \code{restore}).
 }
@@ -38,7 +38,7 @@ dataframe or list containing region data needed to read gz-compressed \code{'.gz
 Character string indicating R-library path in which the oceanmap-package is installed.
 }
   \item{widget}{
-whether a \bold{widget} shall assist the data entry procedure (default is \code{TRUE}).
+whether an interactive session (\bold{widget}) shall assist the data entry procedure (default is \code{TRUE}).
 }
 
   \item{backup}{

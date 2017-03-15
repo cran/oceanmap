@@ -19,51 +19,53 @@
     FILE <- paste("marmap_coord_",x1,";",y1,";",x2,";",y2,"_res_",resolution,".csv", sep="")
   }
   
-  # If file exists in the working directory, load it,
-  if(FILE %in% list.files() ) {
-    cat("File already exists ; loading \'", FILE,"\'", sep="")
-    marmap::read.bathy(FILE, header=T) -> exisiting.bathy
-    return(exisiting.bathy)
-  } else { # otherwise, fetch it on NOAA server
+#   # If file exists in the working directory, load it,
+#   if(FILE %in% list.files() ) {
+#     cat("File already exists ; loading \'", FILE,"\'", sep="")
+#     marmap::read.bathy(FILE, header=T) -> exisiting.bathy
+#     return(exisiting.bathy)
+#   } else { # otherwise, fetch it on NOAA server
     
-    if (antimeridian) {
-      
-      l1 <- x2 ; l2 <- 180 ; l3 <- -180 ; l4 <- x1
-      
-      cat("Querying NOAA database ...\n")
-      cat("This may take seconds to minutes, depending on grid size\n")
-      left <- fetch(l1,y1,l2,y2,res)
-      right <- fetch(l3,y1,l4,y2,res)
-      
-      if (is(left,"try-error")|is(right,"try-error")) {
-        stop("The NOAA server cannot be reached\n")
-      } else {
-        cat("Building bathy matrix ...\n")  
-        left <- marmap::as.bathy(left) ; left <- left[-nrow(left),]
-        right <- marmap::as.bathy(right)
-        rownames(right) <- as.numeric(rownames(right)) + 360
-        bath2 <- rbind(left,right)
-        class(bath2) <- "bathy"
-        bath <- marmap::as.xyz(bath2)
-      }
-      
-    } else {
+#     if (antimeridian) {
+#       
+#       l1 <- x2 ; l2 <- 180 ; l3 <- -180 ; l4 <- x1
+#       
+#       cat("Querying NOAA database ...\n")
+#       cat("This may take seconds to minutes, depending on grid size\n")
+#       left <- fetch(l1,y1,l2,y2,res)
+#       right <- fetch(l3,y1,l4,y2,res)
+#       
+#       if (is(left,"try-error")|is(right,"try-error")) {
+#         stop("The NOAA server cannot be reached\n")
+#       } else {
+#         cat("Building bathy matrix ...\n")  
+#         left <- marmap::as.bathy(left) ; left <- left[-nrow(left),]
+#         right <- marmap::as.bathy(right)
+#         rownames(right) <- as.numeric(rownames(right)) + 360
+#         bath2 <- rbind(left,right)
+#         class(bath2) <- "bathy"
+#         bath <- marmap::as.xyz(bath2)
+#       }
+#       
+#     } else {
       
       cat("Querying NOAA database ...\n")
       cat("This may take seconds to minutes, depending on grid size\n")
       bath <- fetch(x1,y1,x2,y2,res)
+      
       if (is(bath,"try-error")) {
         stop("The NOAA server cannot be reached\n")
-      } else {
-        cat("Building bathy matrix ...\n")  
-        bath2 <- marmap::as.bathy(bath)
+#       } else {
+#         cat("Building bathy matrix ...\n")  
+#         bath2 <- try(marmap::as.bathy(bath),silent = T)
+#         if(class(bath2) == "try-error") stop("The conversion of bathymetry data failed. Please try a different resolution!")
       }
-    }
+#     }
     
-    if (keep) {
-      write.table(bath, file=FILE, sep=",", quote=FALSE, row.names=FALSE)
-    }
-    
-    return(bath2)
-  }
+#     if (keep) {
+#       write.table(bath, file=FILE, sep=",", quote=FALSE, row.names=FALSE)
+#     }
+#     
+    return(bath)
+#   }
 }

@@ -9,7 +9,7 @@ function (used by \link{v}) to define the colorbar placement and figure dimensio
 }
 \usage{
 cust.colorbar(v_area, lon, lat, cbpos='', cbx, cby, 
-              figdim, input.mode, force.figdim.widget=F, xpos=-1, center="E")
+              figdim, input.mode, force.figdim.widget=F, xpos=-1)
 }
 
 
@@ -27,7 +27,7 @@ Vector returning latitude coordinates of the area to be plotted.
 }
 
   \item{cbpos}{
- character string indicating whether the default horizontal ('h' or 'horizontal') or vertical ('v' or 'vertical') colorbar should be plotted. Overwrites \code{cbx} and \code{cby} values.
+ letter ("b", "l", "t", "r") indicating the position of the colorbar (bottom, left, top, right). Overwrites \code{cbx} and \code{cby} values.
 }
 
   \item{cbx}{
@@ -54,9 +54,6 @@ whether \code{figdim} should be assigned by a widget if missing.
   integer: initial position of the top left corner of the figure window on the pc-screen, given in pixels. Negative values are from the opposite corner. (default is -1). Disregarded under Mac OS.
 }
 
-\item{center}{
-  whether the region should be centered on longitudes E or W (default is 'E')
-}
 }
 \details{
 like \code{set.colobar} \code{cust.colobar} defines colorbar settings, but furthermore the default figure size. The function is used by calls of \link{v} on non-\code{'.gz'}-files and \link{add.region}.

@@ -3,7 +3,7 @@
                     subplot, xpos, Save, plotfolder, plotname, fileformat, 
                     param, param_def, file_def, r, outfile.name,
                     v_area,v_image,v_contour,levels, contour.labels, v_arrows, scale_arrow, suffix,
-                    fill.land, col.land, col.bg, border, grid, grid.res, bwd,las,...){ # further arguments passed to plotmap
+                    fill.land, col.land, col.bg, border, grid, grid.res, bwd,las, asp,...){ # further arguments passed to plotmap
   
   #   cat('\nrunning .v.plot')
   ## set folder to plot in
@@ -13,7 +13,6 @@
     maxv <- zlim[2]
     adaptive.vals <- F
   }
-  
   cmap <- cmap_topo <- NULL
   rm(cmap);   rm(cmap_topo)
   data("cmap", envir=environment())
@@ -24,7 +23,7 @@
   # }
   if(is.na(pal[1])){
     pal <- "jet"
-    warning(paste('"pal" not defined, "jet" selected! available color maps:\n',paste(names(cmap),collapse='\n')))    
+    warning(paste('"pal" not defined, "jet" selected from available color maps:\n',paste(names(cmap),collapse='\n')))    
   }
   if(!(pal[1] %in% names(cmap))){
     warning(paste('presonalized color palette ("pal") selected! Please check also available color maps:\n',paste(names(cmap),collapse='\n')))
@@ -76,6 +75,14 @@
     }
   }
   
+  ### apply default projection from map-package
+  xrange <- r$xlim; yrange <- r$ylim; myborder <- 0.01
+  aspect <- c(cos((mean(yrange) * pi)/180), 1)
+  #     plot.window(xrange, yrange, asp = 1/aspect[1])
+  if(missing(asp)) asp <- 1/aspect[1]
+  ###
+  
+  
   if(any(param %in% c('uz','vz', 'wu', 'wv'))){
     path1 <- getwd()
     if(grepl('w',param)) {
@@ -92,8 +99,9 @@
     file_def$parameter <- param2
     path_parts <- unlist(strsplit(path1,param))
     path2 <- paste(path_parts[1], param2,path_parts[2],sep="")
-    setwd(path2)
-    b2 <- readbin(name_join(file_def))
+    file2 <- name_join(file_def)
+    if(!file.exists(file2)) setwd(path2)
+    b2 <- readbin(file2)
     b2[] <- b2[]*scale_arrow
     values <- c(values,setNames(list(b2),param2))
     setwd(path1) # assign values of second file
@@ -226,11 +234,12 @@
       b <- matrix(NA,nrow(b),ncol(b))
       zlim <- c(0,1)
     }
-    raster::image(b, xlim=r$xlim,ylim=r$ylim,xlab="", ylab="",axes=F,asp=1,zlim=zlim)
+    raster::image(b, xlim=r$xlim,ylim=r$ylim,xlab="", ylab="",axes=F,asp=asp,zlim=zlim)
     
     if(v_image){
+      if(missing(col.bg)) col.bg <- rgb(cbind(80,80,80)/255)
+      par(bg=col.bg)
       usr <- par("usr")
-      rect(usr[1], usr[3], usr[2], usr[4], col=rgb(cbind(80,80,80)/255), border="black")
     }
     
     if(file_def$source == 'dekkar'){
@@ -239,7 +248,7 @@
       lat <- unlist(medm9_proj[['lat']])
       
       b <- t(as.matrix(b)[dim(b)[1]:1,])
-      image.plot(lon,lat,b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=1,col=cmap.data,zlim=zlim,add=T,legend.mar=1)
+      image.plot(lon,lat,b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=asp,col=cmap.data,zlim=zlim,add=T,legend.mar=1)
     }else{
       if(param == "bathy" & any(zlim < 0)) {
         
@@ -252,11 +261,12 @@
         #         if(missing(border)) border <- "black" # does not work if fill.land is set F!
         if(missing(cb.xlab)) cb.xlab <- "Elevation (m)"
       }
-      raster::image(b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=1,col=cmap.data,zlim=zlim,add=T)
+      raster::image(b, xlab="", ylab="",xlim=r$xlim,ylim=r$ylim,asp=asp,col=cmap.data,zlim=zlim,add=T)
     }
   }
   if(!missing(levels)) v_contour <- T
   if(v_contour) {
+    grid <- F
     if(missing(levels)){
       raster::contour(bcont,add=T,labels=contour.labels,lty="dashed")
     }else{

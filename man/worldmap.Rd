@@ -37,8 +37,9 @@ worldmap <- oceanmap:::.get.worldmap(worldmap)
 str(worldmap)
 
 ## wordlmap usage in plotmap, with different center-options
-plotmap(lon=c(110, -110), lat=c(-50, 10)) # default center on lon E
-plotmap(lon=c(110, -110), lat=c(-50, 10), center="W")
+par(mfrow=c(3,1))
+plotmap(lon=c(80, -120), lat=c(-50, 10), main= "map from East to West")
+plotmap(lon=c(-120, 80), lat=c(-50, 10), main= "map from West to East")
 plotmap('tp')
 
 }

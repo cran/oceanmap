@@ -149,15 +149,6 @@ figure <- function(filename,folder,type,save=F,do.save=save,
   return(filename)
 }
 
-
-# cut.figure <- function(fname,folder="."){
-#   owd <- getwd()
-#   setwd(folder)
-#   system(paste0("convert ", fname, "* -trim ", fname, "*")) 
-#   # system(paste0("convert -density 150 ", f, "* -flatten -trim -bordercolor white -border 10% ", f, "*")) 
-#   setwd(owd)
-# }
-
 close_fig <- function(do.close=F,do.save=do.close) {
   if(do.close | do.save) dev.off()
 }

@@ -15,9 +15,10 @@
   
   
 \title{
-Ploting 2D oceanographic data}
+Plotting spatial data}
 \description{
-Plots 2D oceanographic data. Valid input data are objects of class 'Raster' ('RasterLayer', 'RasterStack' or 'RasterBrick'), 'ncdf4' or a character strings indicating \code{'bathy'}metric data, 'gz'- or '.nc-files. See also \link{name_split} for further information on \code{'.gz'}-file nomenclature. 
+Plots spatial data (e.g. 2D oceanographic data). Valid input data are objects of class 'Raster' ('RasterLayer', 'RasterStack' or 'RasterBrick'), 'ncdf4' (already loaded netcdf files) or a character strings indicating \code{'bathy'}metric data, 'gz'- or '.nc-files' (netcdf).
+See also \link{name_split} for further information on \code{'.gz'}-file nomenclature. 
 }
 
 \usage{
@@ -25,17 +26,17 @@ Plots 2D oceanographic data. Valid input data are objects of class 'Raster' ('Ra
 \S4method{v}{bathy}(obj, v_area, lon, lat, resolution=4, keep=F, 
   savename.bathy, folder.bathy=".", adaptive.vals=T, cb.title, show.colorbar=T,...)
 
-\S4method{v}{nc}(obj, varname, t=1, adaptive.vals=T, dates, 
-  cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T,...)
+\S4method{v}{nc}(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
+  cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T ,...)
 
-\S4method{v}{ncdf4}(obj, varname, t=1, adaptive.vals=T, dates, 
-  cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T,...)
+\S4method{v}{ncdf4}(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
+  cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T, ...)
 
-\S4method{v}{RasterLayer}(obj, varname, t=1, ...)
+\S4method{v}{RasterLayer}(obj, varname, t=1, layer=t, ...)
 
-\S4method{v}{RasterBrick}(obj, varname, t=1, ...)
+\S4method{v}{RasterBrick}(obj, varname, t=1, layer=t,  ...)
 
-\S4method{v}{RasterStack}(obj, varname, t=1, ...)
+\S4method{v}{RasterStack}(obj, varname, t=1, layer=t,  ...)
 
 \S4method{v}{gz}(obj, v_area, adaptive.vals=F, show.colorbar=T,...)
 }
@@ -55,8 +56,8 @@ sets minimum and maximum z-value according to the \code{'.gz'}-files value range
 (default is \code{TRUE} for non-\code{'.gz'}-files. If \code{FALSE} or not set, default value from the \link{parameter_definitions}-dataset will be applied according to the \code{param}-value.
 }
 
- \item{t}{
-layer/time stemp to select in multi-layer files.
+ \item{t, layer}{
+layer/time stemp to select in multi-layer files/objects (e.g. ncdf4, RasterStack).
 }
 
  \item{dates}{
@@ -136,7 +137,7 @@ character string indicating the parameter name for the dataset treatment. See \c
 }
 
 \item{\code{cbpos}}{
- character string indicating whether the default horizontal ('h' or 'horizontal') or vertical ('v' or 'vertical') colorbar should be plotted. Overwrites \code{cbx} and \code{cby} values.
+ letter ("b", "l", "t", "r") indicating the position of the colorbar (bottom, left, top, right). Overwrites \code{cbx} and \code{cby} values.
 }
 
 \item{\code{cbx}}{
@@ -226,6 +227,10 @@ a vector giving the labels for the contour lines. By default levels are used as 
   scale factor needed for current and wind vector plots (default is 1; Argument is disregarded for non-\code{.gz}-files and omitted if no current or wind data-files are provided, indicated by the param-argument (valid \code{param}-definitions are: 'uz' and 'vz', for current data, 'wu' and 'wz' for wind data))
 }
 
+\item{\code{terrain}}{
+whether the to keep terrain data (default is \code{FALSE}). If set \code{FALSE} and \code{visualize} is \code{TRUE}, \code{grid} command in \link{plotmap} is disabled!
+}
+
 \item{\code{\dots}}{
   Additional arguments to be passed to \code{\link{plotmap}} (\code{bwd}, \code{fill}, \code{col}, \code{border}, \code{grid}, \code{grid.res}, \code{axeslabels}, \code{ticklabels}, \code{cex.lab}, \code{cex.ticks}).
 }
@@ -249,10 +254,106 @@ Robert K. Bauer
 \references{
 Bauer, R. K., Stepputtis, D., Grawe, U., Zimmermann, C., and Hammer, C. 2013. Wind-induced variability in coastal larval retention areas: a case study on Western Baltic spring-spawning herring. Fisheries Oceanography, 22: 388-399.
 }
-
 \examples{
+################## simple example section:
 
-## Example 1: plot bathymetry using a v_area-keyword
+## Example 1: load & plot a sample Raster-object
+setwd(system.file("test_files", package="oceanmap"))
+load("medw4_modis_sst2_4km_1d_20020705_20020705.r2010.0.qual0.Rdata",verbose=TRUE)
+dat <- raster::crop(dat,extent(c(0,10,40,44))) ## crop data, xlim/ylim not yet implemented in v()
+print(dat)
+v(dat, main="Raster-object", cbpos='r')
+
+
+## Example 2: load & plot sample netcdf-file ('.nc'-file)
+setwd(system.file("test_files", package="oceanmap"))
+nfiles <- Sys.glob('*.nc') # load list of sample-'.nc'-files
+head(nfiles)
+
+### option a) load netcdf-file with ncdf4-package and plot it
+library('ncdf4')
+ncdf <- nc_open(nfiles[1])
+print(ncdf)
+v(obj = ncdf, cbpos="r")
+
+### option b) load and plot netcdf-file as RasterStack object
+nc <- nc2raster(nfiles[1])
+v(nc,cbpos="r") # plot RasterStack object
+
+### option c) plot netcdf-file directly
+v(nfiles[1], cbpos="r")
+v(nfiles[1], cbpos="r", replace.na=TRUE)
+
+###### plot multiple layers:
+par(mfrow=c(2,2))
+v(nfiles[1], t=1:4, cbpos="r", replace.na=TRUE, subplot = TRUE)
+
+
+# ## Example 2: load & plot bathymetry data from the NOAA-ETOPO1 database
+# par(mfrow=c(2,1))
+# bathy <- get.bathy("medw4", terrain=T, res=3, keep=T, visualize=T, subplot = TRUE, grid=F)
+# # load('bathy_medw4_res.3.dat',verbose = T); bathy <- h
+# v(bathy, param="bathy", subplot = TRUE, terrain=F, levels=c(200,2000)) # show contours
+# 
+# ## b) only contour lines:
+# par(mfrow=c(1,2))
+# h <- get.bathy("lion",terrain=F,res=3, visualize=T,
+#                subplot=T, v_image = FALSE, levels=c(200,2000))
+# 
+# ## use v-function for same plot but on subregion:
+# v(h,v_area = "survey", param="bathy",
+#   subplot=T, v_image = FALSE, levels=c(200,2000)) 
+
+
+## Example 3: plot sample-'.gz'-file
+owd <- getwd()
+setwd(system.file("test_files", package="oceanmap"))
+gz.files <- Sys.glob('*.gz')
+v(gz.files[2]) ## plot content of gz-file
+ 
+ 
+## Example 4: load sample-'.gz'-file manually as Raster-object and plot it
+obj <- readbin(gz.files[2],area='lion')
+par(mfrow=c(1,2))
+v(obj,param="sst",subplot = TRUE)
+v(obj,param="Temp",subplot = TRUE) ## note unset "pal" (colormap) for unkown "param"-values!
+
+
+## Example 5: available color maps
+data('cmap') # load color maps data
+names(cmap) # list available color maps
+
+setwd(system.file("test_files", package="oceanmap"))
+gz.files <- Sys.glob('*.gz')
+figure(width=15,height=15)
+par(mfrow=c(4,5))
+for(n in names(cmap)) v(gz.files[2], v_area='lion', subplot=TRUE,
+                        pal=n, adaptive.vals=TRUE, main=n)
+
+## define new color maps from blue to red to white:
+n <- colorRampPalette(c('blue','red','white'))(100)
+v(gz.files[2], v_area='lion', subplot=TRUE,
+  pal=n, adaptive.vals=TRUE, main="own colormap")
+
+
+## Example 6: available parameters
+data(parameter_definitions)
+names(parameter_definitions)
+# ?parameter_definitions
+
+setwd(system.file("test_files", package="oceanmap"))
+figure(width=12, height=6.2)
+par(mfrow=c(2,3))
+v('*sst2*707*',v_area="medw4",main="sst", subplot=TRUE)
+v('*chla*531*',v_area="medw4",main="chla", subplot=TRUE)
+v('*chlagrad*',v_area="medw4",main="chlagrad",subplot=TRUE)
+v('*p100*',v_area="medw4",main="p100 (oceanic fronts)",subplot=TRUE)
+v('*sla*',v_area="medw4",main="sla",subplot=TRUE)
+# h <- get.bathy("medw4",visualize=TRUE,terrain=F,res=4, subplot=TRUE,main="bathy")
+
+################## advanced example section:
+
+## Example I: plot bathymetry using a v_area-keyword
 ## requires server connection!
 # par(mfrow=c(2,1))
 # v("bathy","lion",res=4, keep=TRUE,border='grey',subplot=TRUE, 
@@ -262,56 +363,51 @@ Bauer, R. K., Stepputtis, D., Grawe, U., Zimmermann, C., and Hammer, C. 2013. Wi
 #   cb.title="resolution 1 min")  # can take some time depending on server connection!
   
 
-## Example 2: plot bathymetry of the Baltic Sea defined by longitude and latidtue coordinates
+## Example II: plot bathymetry of the Baltic Sea defined by longitude and latidtue coordinates
 ## requires server connection!
 lon <- c(9, 31)
 lat <- c(53.5, 66)
 #v("bathy",lon=lon,lat=lat,main="Baltic Sea")
 
 
-## Example 3: plot landmask of the Baltic Sea defined by an extent- or raster-object
+## Example III: plot landmask of the Baltic Sea defined by an extent- or raster-object
 ## requires server connection!
 library('raster')
 ext <- extent(lon,lat)
-# v("bathy",ext,main="Baltic Sea",res=4,levels=200, steps=200) # extent-object
+# v("bathy",ext,main="Baltic Sea",res=4,levels=200) # extent-object
 
 
-## Example 4: plot '.gz'-files, following default plot-procedure
+## Example IV: plot '.gz'-files, following default plot-procedure
 owd <- getwd()
 setwd(system.file("test_files", package="oceanmap"))
 check_gzfiles() # return file summary-table
 gz.files <- Sys.glob('*.gz') # load sample-'.gz'-files
-v(gz.files[1:3])
-v(gz.files[3],bwd=2)
+v(gz.files[1:4])
+v(gz.files[4],bwd=2)
 
-## Example 5: plot climatologies from '.gz'-files 
+## Example V: plot climatologies from '.gz'-files 
 ##            (ATTENTION: not working for non-'gz'-files, requiring ImageMagick)
 clim_plot('*1s*.gz',bwd=0.7,adaptive.vals=TRUE,plotname="seasonal_climatology.png")
 
-## Example 6: plot subregion of gz-files as subplots
+## Example VI: plot subregion of gz-files as subplots
 graphics.off()
 par(mfrow=c(2,1))
 v(gz.files[1:2],v_area='lion',subplot=TRUE) # run ?region_definitions to see predefined regions
 
 
-## Example 7: plot subregion of gz-file with different color maps
-data('cmap')
-par(mfrow=c(3,4))
-for(i in 1:11) v(gz.files[2],v_area='lion',subplot=TRUE,pal=names(cmap)[i],
-                 adaptive.vals=TRUE,main=names(cmap)[i])
-
-
-## Example 8: plot subregion of raster file
+## Example VII: plot subregion of raster file
 
 # all manual:
 obj <- readbin(gz.files[2],area='lion')
 dev.new()
 ticks <- seq(20,30,5)
+par(mar=c(5,4,5,8))
 image(obj,zlim=range(ticks),col=cmap$jet)
 plotmap('lion',add=TRUE) # add landmask
 # set.colorbar(ticks=ticks,cb.title='cb.title',cb.xlab='cb.xlab')
 
 # using v, reconstructing region information
+obj <- readbin(gz.files[2],area='lion')
 v(obj,varname="sst2",cb.title='cb.title',cb.xlab='cb.xlab')
 
 # using v for another subregion
@@ -320,11 +416,11 @@ ncorse <- crop(obj,extent(6,9,40,42))
 # v(ncorse,zlim=c(20,30),cbx=c(8.3,8.9),cby=c(40.7,40.8)) # skipping colorbar widget
 
 
-## Example 9: Add region by supplying raster-object, colorbar positions and running the widget
+## Example VIII: Add region by supplying raster-object, colorbar positions and running the widget
 #add.region(ncorse,cbx=c(8.3,8.9),cby=c(40.7,40.8))
 
 
-## Example 10: plot netcdf-files ('.nc'-files)
+## Example IX: plot netcdf-files ('.nc'-files)
 nfiles <- Sys.glob('*.nc') # load sample-'.nc'-files
 head(nfiles)
 
@@ -339,8 +435,6 @@ head(nfiles)
 # v(nfiles[2],varname='bathymetry') # following default plot-procedure
 # v(nfiles[2],varname='bathymetry',pal='haxbyrev',Log=TRUE, cb.xlab='depth [log m]',levels=50)
 
-## Example 11: plot bathymetry and topography of the western Mediterranean Sea
-#get.bathy("medw4",visualize=T,terrain=T,res=3)
-#get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
-#get.bathy("lion",visualize=T,terrain=F,res=3,levels=c(200,2000),v_image=F) # show only contours
+
+
 }

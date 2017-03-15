@@ -79,10 +79,10 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
             add <- region_definitions[ids+1,]
             longnames <- c("keyword",
                            "long name",
-                           "northern most latitude (negative values for southern hemisphere)",
-                           "southern most latitude (negative values for southern hemisphere)",
-                           "western most longitude (negative values for western hemisphere)",
-                           "eastern most longitude (negative values for western hemisphere)")
+                           "northern most latitude (negative values for the southern hemisphere)",
+                           "southern most latitude (negative values for the southern hemisphere)",
+                           "western most longitude (negative values for the western hemisphere)",
+                           "eastern most longitude (negative values for the western hemisphere)")
             i <- 1
             while (i <= 6){
               if(i %in% 3:4 & length(add.lat) > 0){
@@ -91,7 +91,7 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
                 if(i %in% 5:6 & length(add.lon) > 0){
                   val <- add.lon[which(5:6 %in% i)]
                 }else{
-                  val <- readline(paste0("\nPlease define the ",longnames[i], " of the new region, coded as '",names(region_definitions)[i],"':"))
+                  val <- readline(paste0("\nPlease define the ",longnames[i], " of the new region, \ncoded as '",names(region_definitions)[i],"':"))
                   cat(val)
                   if(i == 1 & val %in% region_definitions$label){
                     answer <- readline(paste0("\nregion label '", val, "' already exists!\nPlease type 'y' if you like to overwrite previous region definition or any other key to revise entry?"))
@@ -114,17 +114,17 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
               i <- i+1
             }
             lon <- c(add$lonw, add$lone)
-            if(any(lon < 0) | any(lon > 180)){
-              center <- ''
-              start.question <- "Please define the map to be used."
-              while(!(center %in% c('W','E'))){
-                center <- readline(paste0(start.question, "\nType 'W' for the Pacific Centric World Map (world2Hires), \nor 'E' for the standard World Map (worldHires, default map)"))
-                start.question <- "Please revise entry for the map to be used."
-              }
-            }else{
-              center <- 'E'
-            }
-            cb <- cust.colorbar(lon=lon,lat=c(add$lats,add$latn),cbx=cby,cby=cby,figdim=figdim,force.figdim.widget=T,center=center)
+#             if(any(lon < 0) | any(lon > 180)){
+#               center <- ''
+#               start.question <- "Please define which hemisphere should correspond to positive longitudes."
+#               while(!(center %in% c('W','E'))){
+#                 center <- readline(paste0(start.question, "\nType 'W' longitudes of the Western hemisphere, \nor 'E' for longitudes of the Eastern hemisphere."))
+#                 start.question <- "Please revise entry."
+#               }
+#             }else{
+#               center <- 'E'
+#             }
+            cb <- cust.colorbar(lon=lon,lat=c(add$lats,add$latn),cbx=cby,cby=cby,figdim=figdim,force.figdim.widget=T)
             add$cbx1 <- cb$cbx[1]
             add$cbx2 <- cb$cbx[2]
             add$cby1 <- cb$cby[1]
@@ -133,14 +133,13 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
             add$oticks <- cb$align[2]
             add$figxdim <- cb$figdim[1]
             add$figydim <- cb$figdim[2]
-            add$center <- center
+            add$center <- NA
             
             add$grid.res <- as.numeric(readline("\nPlease enter default grid resolution."))
           }
           cat("\nEntry section finished.\n")
           #     cat(region_definitions)
         }
-        print(add)
         
         if(length(add)!= length(region_definitions)) stop("error in add.region: added data is incomplete. please check and try again.")
         for(i in c(10:13,16:18)) if(any(!is.numeric(unlist(c(add)[i])))| any(!is.finite(unlist(c(add)[i])))) stop(paste0("error in add.region: added value '",as.vector(add)[i],"' for '", names(region_definitions)[i], "' is not numeric. please change."))
@@ -151,7 +150,7 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
         region_definitions <- rbind(region_definitions,add)
         row.names(region_definitions) <- 1:nrow(region_definitions)
         
-        enter <- readline("\nPress <Enter> to save region configuration or any other key to abort the operation.")
+        enter <- readline("\nPress <Enter> to save the new region definition \nor any other key to abort the operation.")
         if(enter != "") stop("Operation stopped by user")
         cat(paste0('\nnew region added under label: ',new.region))
       }

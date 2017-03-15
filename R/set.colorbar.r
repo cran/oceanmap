@@ -6,16 +6,28 @@ set.colorbar <- function(cbx, cby, cbpos, pal='jet',zlim,ticks=1:10,labels=ticks
     ylim <- par()$usr[3:4]
     grads <- c(abs(diff(xlim)),abs(diff(ylim)))
     
-    if(cbpos == 'h' | cbpos == 'horizontal'){
+    
+    if(cbpos == 'b'){
       if(missing(cbx)) cbx <- xlim
       if(missing(cby)) cby <- range(c(ylim[1]-0.22*min(grads),ylim[1]-0.26*min(grads)))
-    }else{
-      if(cbpos == 'v' | cbpos == 'vertical'){
-        if(missing(cbx)) cbx <- c(xlim[2]+0.08*min(grads),xlim[2]+0.12*min(grads))
-        if(missing(cby)) cby <- ylim
-      }
+    }
+    
+    if(cbpos == 'l'){
+      if(missing(cbx)) cbx <- c(xlim[1]-0.36*min(grads),xlim[1]-0.32*min(grads))
+      if(missing(cby)) cby <- ylim
+    }
+    
+    if(cbpos == 't'){
+      if(missing(cbx)) cbx <- xlim
+      if(missing(cby)) cby <- range(c(ylim[2]+0.08*min(grads),ylim[2]+0.12*min(grads)))
+    } 
+    
+    if(cbpos == 'r'){
+      if(missing(cbx)) cbx <- c(xlim[2]+0.08*min(grads),xlim[2]+0.12*min(grads))
+      if(missing(cby)) cby <- ylim
     }
   }
+  
   
   #   #inst.pkg('plotrix')
   if(!missing(zlim) & missing(ticks)) ticks <- pretty(zlim)

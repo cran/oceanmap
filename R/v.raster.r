@@ -3,15 +3,15 @@ v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, ada
                      sidelabels=F, Ylab=F, axeslabels=T, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, cex.cb.title=0.9,cex.cb.xlab=0.8,cex.cb.ticks=0.7,
                      subplot=F, width, height, figdim, xpos=-1, Save=F, plotfolder=".", plotname, fileformat="png", suffix, 
                      region, v_area=region, v_image=T, v_contour=F, levels, contour.labels=NULL, v_arrows=F, scale_arrow=1, 
-                     fill.land=T, col.land="grey", col.bg=NA,border='black', grid=T, grid.res, bwd=1,cb.ticks.srt=90,las=1,
-                     dates){
+                     fill.land=T, col.land="grey", col.bg=NA,border='black', grid=T, grid.res, bwd=2,cb.ticks.srt=90,las=1,
+                     dates,terrain=T){
   if(missing(show.colorbar)) show.colorbar <- T    
-  
-  if(missing(param)) {
+  if(missing(param) & missing(varname)) {
     param <- ''
     if(missing(cb.xlab) & missing(cb.title)) cb.xlab <- names(obj)
     if(missing(cb.title)) cb.title <- ''
   }
+  
   if(missing(varname)) varname <- param
   if(!missing(width) & !missing(height)) figdim <- c(width, height)
   
@@ -29,6 +29,14 @@ v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, ada
   param_def$log <- as.numeric(Log)
   if(missing(cb.xlab) & is.na(param_def$name1)) cb.xlab <- varname
   param <- param_def$param <- varname
+  
+  if(param == "bathy" & !terrain){
+      ii <- which(obj[,] < 0)
+      if(length(ii) > 0){
+        obj[obj[,] > 0] <- NA
+        obj[,] <- -obj[,]
+      }
+  }
   
   #   #inst.pkg(raster)
   if(!(grepl('Raster', class(obj)))) stop('error in.v.raster.r: obj of unknown input format. Please check!')   
@@ -78,8 +86,9 @@ v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, ada
     if(missing(grid.res)) grid.res <- r$grid.res[1] # set grid resolution
     ext <- extent(c(r$xlim,r$ylim))
   }
-  if(cbpos %in% c('h','horizontal','v','vertical') | !v_area.valid){
-    cb <- cust.colorbar(ext,cbpos=cbpos,cbx=cbx,cby=cby,figdim=figdim,input.mode="i",force.figdim.widget=F,xpos=xpos)
+
+  if(cbpos %in% c('b','l','t','r') | !v_area.valid){
+    cb <- cust.colorbar(ext,cbpos=cbpos,cbx=cbx,cby=cby,figdim=figdim,force.figdim.widget=F,xpos=xpos)
     r$cbx <- cb$cbx
     r$cby <- cb$cby
     r$align <- cb$align

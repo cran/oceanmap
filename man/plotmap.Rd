@@ -6,31 +6,38 @@ plots landmask of a defined region}
 plots the landmask of a region defined by a \code{region}-key word, georgraphical coordinates (\code{lon}gitude and \code{lat}itude), a raster- or \link[raster]{extent}-object. See \link{add.region} to add and save new region definitions. Attention! Unlike \link{add.region}, \code{plotmap} does not include colorbar placement (see: \link{set.colorbar})
 }
 \usage{
-plotmap(region=v_area, lon, lat, center='E', add=F, 
+plotmap(region=v_area, lon, lat, add=F, asp,
         grid=T, grid.res, resolution=0, 
         main, axeslabels=T, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
-        fill.land=T, col.land="grey", col.bg=NA, border='black', bwd=1, las=1, v_area
+        fill.land=T, col.land="grey", col.bg=NA, border='black', bwd=2, las=1, 
+        v_area, xlim, ylim
         )
 }
 \arguments{
   \item{region, v_area}{
 Character string identifying regions predefined by the \link{region_definitions}-dataset, Raster* or Extent object (corresponds to \code{v_area} of the \link{v}-function). If missing, region is derived from geographical coordinates, denoted by lat and lon. See \link{add.region} to define new region definitions and \link{delete.region} to delete unproper region definitions.
 }
-  \item{lon}{
+  \item{lon, xlim}{
 Vector returning longitude coordinates of the area to be plotted.
 }
-  \item{lat}{
+  \item{lat, ylim}{
 Vector returning latitude coordinates of the area to be plotted.
 }
   \item{add}{
 whether the a the landmask should be added to an existent figure (default is \code{FALSE})
 }
+
+  \item{asp}{
+numeric, giving the aspect y/x-ratio of the y- and x-axes. See \link{plot.window} for more details.
+}
+
   \item{main}{
 title to be plotted
 }
   \item{axeslabels}{
 whether axis-labels (longitude and latitude) should be added to the axes (default is \code{TRUE}). Can be a single value or a vector of size two.
 }
+
   \item{ticklabels}{
 whether tick-labels should be added to the axes (default is \code{TRUE}). Can be a single value or a vector.
 }
@@ -64,9 +71,6 @@ background color (ocean) to be plotted (default is NA)
   \item{border}{
 country border color of the landmask to be plotted (default is black)
 }
-  \item{center}{
-whether the region should be centered on longitudes E or W (default is 'E')
-}
 
 \item{las}{
 numeric in {0,1,2,3}; the style of axis labels.
@@ -96,36 +100,62 @@ Robert K. Bauer
 }
 
 \examples{
-## Example 1: plot landmask of the Mediterranean Sea
-par(mfrow=c(2, 1))
-plotmap('med4', main="Mediterranean Sea")
-plotmap('med4', main="Mediterranean Sea", bwd=2, border='grey', grid=FALSE)
+#### Example 1: plot landmask of the Mediterranean Sea
+## a) by using longitude and latitude coordinates:
+lon <- c(-6, 37)
+lat <- c(30, 46)
+figure(width=9.75,height=5.28)
+plotmap(lon=lon, lat=lat, main="Mediterranean Sea")
+plotmap(xlim=lon, ylim=lat, main="Mediterranean Sea")
 
-
-## Example 2: plot landmask of tropical Pacifc
-plotmap("tp")
-
-
-## Example 3: plot landmask of the Baltic Sea defined by longitude and latidtue coordinates
-lon <- c(9, 31)
-lat <- c(53.5, 66)
-plotmap(lon=lon, lat=lat, main="Baltic Sea", grid.res=5, bwd=2)
-
-
-## Example 4: plot landmask of the Baltic Sea defined by an extent- or raster-object
+## b) plot landmask of the Mediterranean Sea by using an extent-object:
 library('raster')
 ext <- extent(lon, lat)
-plotmap(ext, main="Baltic Sea") # extent-object
+plotmap(ext, main="Mediterranean Sea") # extent-object
 
+## c) plot landmask of the Mediterranean Sea by using a raster-object:
 r <- raster(ext)
-plotmap(r, main="Baltic Sea") # raster-object
+plotmap(r, main="Mediterranean Sea") # raster-object
 
-## Example 5: centering the region
-plotmap(lon=c(110, -110), lat=c(-50, 10)) # default center on lon E
-plotmap(lon=c(110, -110), lat=c(-50, 10), center="W")
-plotmap('tp')
+## d) plot landmask of the Mediterranean Sea by using a region label:
+plotmap('med4', main="Mediterranean Sea") # region-label
+# regions() ## check preinstalled region label
 
-## Example 6: plot bathymetry and topography of the western Mediterranean Sea
+## e) add landmask to an existing plot:
+plot(3.7008, 43.4079, xlim=lon, ylim=lat)
+plotmap(add=T)
+points(3.7008, 43.4079, pch=19)
+
+
+#### Example 2: subplots and some additional arguments of plotmap()
+par(mfrow=c(2, 1))
+plotmap('medw4', main="Western Mediterranean Sea",col.bg="darkblue")
+plotmap('medw4', main="Western Mediterranean Sea", bwd=3, border='grey', grid=FALSE)
+
+
+#### Example 3: plotmap() and figure()
+do.save <- FALSE ## open a plotting window
+figure("Gulf_of_Lions_extended", do.save=do.save, width=5, height=5, type="pdf")
+plotmap("lion",col.bg='darkblue',grid=FALSE)
+close_fig(do.save)
+
+## now resize figure manually and get new figure dimensions:
+width <- dev.size()[1]
+height <- dev.size()[2]
+
+do.save <- TRUE ## do NOT open a plotting window, but save figure internally
+figure("Gulf_of_Lions_extended", do.save=do.save, width=width, height=height, type="pdf")
+plotmap("lion",col.bg='darkblue',grid=FALSE)
+close_fig(do.save)
+
+
+#### Example 4: between hemispheres
+par(mfrow=c(2,1))
+plotmap(lon=c(80, -120), lat=c(-50, 10), main= "map from East to West")
+plotmap(lon=c(-120, 80), lat=c(-50, 10), main= "map from West to East")
+
+
+#### Example 5: plot bathymetry and topography of the western Mediterranean Sea
 #get.bathy("medw4",visualize=T,terrain=T,res=3)
 #get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
 #get.bathy("lion",visualize=T,terrain=F,res=3,levels=c(200,2000),v_image=F) # show only contours

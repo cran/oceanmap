@@ -3,6 +3,8 @@ regions <- function(label) {
   rm(region_definitions)
   data('region_definitions',envir=environment(),package='oceanmap')
   
+  if (missing(label)) stop("error in regions.r: No region label selected! Please select valid region label:\n",paste(paste(region_definitions[,1],"\t",region_definitions[,2]),collapse='\n'))
+  
   i <- which(region_definitions$label == label)
   if (length(i) < 1) stop("error in regions.r: Selected region not found! Please select valid region label:\n",paste(paste(region_definitions[,1],"\t",region_definitions[,2]),collapse='\n'))
   

@@ -44,31 +44,93 @@ setMethod('v', signature(obj='character'),
 setMethod('v', signature(obj='bathy'), 
           function(obj, v_area, lon, lat, resolution=4, keep=F, 
                    savename.bathy, folder.bathy=".", adaptive.vals=T, cb.title, show.colorbar=T,...) v.bathy(v_area=v_area,lon=lon,lat=lat,resolution=resolution, keep=keep,
-          savename.bathy=savename.bathy, folder.bathy=folder.bathy,visualize=T,cb.title=cb.title,show.colorbar=show.colorbar,...))
+                                                                                                             savename.bathy=savename.bathy, folder.bathy=folder.bathy,visualize=T,cb.title=cb.title,show.colorbar=show.colorbar,...))
 
 setMethod('v', signature(obj='gz'), function(obj, v_area, adaptive.vals=F,show.colorbar=T, ...) v.gz(obj=unique(obj), v_area=v_area, adaptive.vals=adaptive.vals, show.colorbar=show.colorbar,...))
-  
+
 
 setMethod('v', signature(obj='nc'), 
-          function(obj, varname, t=1, adaptive.vals=T, dates, 
+          function(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
                    cb.xlab=varname, lonname="lon", latname='lat',show.colorbar=T,...){
-            obj2 <- nc2raster(obj,varname,lonname=lonname,latname=latname,layer=t,date=T)
-            
-          v.raster(obj=obj2, layer=1:length(t),adaptive.vals=adaptive.vals,show.colorbar=show.colorbar,...)
+            obj2 <- nc2raster(obj,varname,lonname=lonname,latname=latname,date=T,layer=layer)
+            if(missing(t)){
+              if(!missing(layer)){
+                t <- layer
+              }else{
+                t <- 1
+                n <- raster::nlayers(obj2)
+                warning("no (time) layer defined from a netcdf-file, selecting first of ", n, " layer(s)")
+              }
+            }
+            v.raster(obj=obj2, layer=1:length(t),adaptive.vals=adaptive.vals,show.colorbar=show.colorbar,...)
           }
 )
 
 setMethod('v', signature(obj='ncdf4'), 
-          function(obj, varname, t=1, adaptive.vals=T, dates, 
+          function(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
                    cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T,...){
-            obj2 <- nc2raster(obj,varname,lonname=lonname,latname=latname,layer=t,date=T)
-          v.raster(obj=obj2, layer=1:length(t),adaptive.vals=adaptive.vals, show.colorbar=T,...)
+            obj2 <- nc2raster(obj,varname,lonname=lonname,latname=latname,date=T)
+            if(missing(t)){
+              if(!missing(layer)){
+                t <- layer
+              }else{
+                t <- 1
+                n <- raster::nlayers(obj2)
+                warning("no (time) layer defined from ncdf4-object, selecting first of ", n, " layer(s)")
+              }
+            }
+            v.raster(obj=obj2, layer=t,adaptive.vals=adaptive.vals, show.colorbar=T,...)
           }
 )
 
-setMethod('v', signature(obj='RasterStack'), function(obj, varname, t=1, ...)v.raster(obj=obj, varname=varname,layer=t,...))
-setMethod('v', signature(obj='RasterBrick'), function(obj, varname, t=1, ...)v.raster(obj=obj, varname=varname,layer=t,...))
-setMethod('v', signature(obj='RasterLayer'), function(obj, varname, t=1, ...)v.raster(obj=obj, varname=varname,layer=t,...))
+setMethod('v', signature(obj='RasterLayer'), 
+          function(obj, varname, t=1, layer=t, ...){
+            obj2 <- obj
+            if(missing(t)){
+              if(!missing(layer)){
+                t <- layer
+              }else{
+                t <- 1
+                n <- raster::nlayers(obj2)
+                warning("no (time) layer defined from RasterLayer-object, selecting first of ", n, " layer(s)")
+              }
+            }
+            v.raster(obj=obj2, layer=t,...)
+          }
+)
+
+setMethod('v', signature(obj='RasterStack'), 
+          function(obj, varname, t=1, layer=t, ...){
+            obj2 <- obj
+            if(missing(t)){
+              if(!missing(layer)){
+                t <- layer
+              }else{
+                t <- 1
+                n <- raster::nlayers(obj2)
+                warning("no (time) layer defined from RasterStack-object, selecting first of ", n, " layer(s)")
+              }
+            }
+            v.raster(obj=obj2, layer=t,...)
+          }
+)
+
+setMethod('v', signature(obj='RasterBrick'), 
+          function(obj, varname, t=1, layer=t, ...){
+            obj2 <- obj
+            if(missing(t)){
+              if(!missing(layer)){
+                t <- layer
+              }else{
+                t <- 1
+                n <- raster::nlayers(obj2)
+                warning("no (time) layer defined from RasterBrick-object, selecting first of ", n, " layer(s)")
+              }
+            }
+            v.raster(obj=obj2, layer=t,...)
+          }
+)
+
 
 
 

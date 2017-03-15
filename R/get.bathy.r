@@ -34,22 +34,37 @@ v.bathy <- get.bathy <- function(v_area,lon,lat,resolution=4, keep=F, savename.b
   
   if(file.exists(savename)){
     load(savename)
+    if(!terrain){
+      ii <- which(h[,] < 0)
+      if(length(ii) > 0){
+        h[h[,] > 0] <- NA
+        h[,] <- -h[,]
+      }
+    }
+    
   }else{
     cat('loading bathymetry data at a resolution of',resolution ,"degrees\n")
 #     bathy <- getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
 #                            resolution = resolution)   
     
-    bathy <- .getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
+    pos <- .getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
                            resolution = resolution)
-    
-    h <- bathy
-    h <- t(h[])[ncol(h):1,]
+
+    ext <- raster::extent(c(lon),lat)
+    dd <- raster::raster(ext, ncol=length(unique(pos[,1])), nrow=length(unique(pos[,2])))
     if(!terrain){
-      h[h > 0] <- NA
-      h <- -1*h
+      pos$V3[pos$V3 > 0] <- NA
+      pos$V3 <- -1*pos$V3
     }
-    h <- raster(h)
-    raster::extent(h) <- raster::extent(c(lon,lat))
+    h <- raster::rasterize(pos[,1:2], dd, pos[,3], fun=mean)
+#     h <- bathy
+#     h <- t(h[])[ncol(h):1,]
+#     if(!terrain){
+#       h[h > 0] <- NA
+#       h <- -1*h
+#     }
+#     h <- raster(h)
+#     raster::extent(h) <- raster::extent(c(lon,lat))
     raster::projection(h) <- "+proj=longlat"
   }
   if(keep) {

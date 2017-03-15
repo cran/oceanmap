@@ -1,5 +1,9 @@
 oceanmap versions
 
+oceanmap_0.0.4 March 15, 2017 (Robert Bauer)
+	- setting the default projection of map() in plotmap() and v() calls
+        - fixing minor bugs in plotmap() and v()
+
 oceanmap_0.0.3 March 8, 2017 (Robert Bauer)
 	- loadfonts() set quiet in figure() calls
         - update on NOAA server in get.bathy() calls

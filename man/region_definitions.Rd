@@ -79,9 +79,15 @@ Robert K. Bauer
 
 
 \examples{
-## Example
 data(region_definitions)
 head(region_definitions)
+region_definitions$label
+# ?region_definitions
+
+figure(width=15,height=15)
+par(mfrow=c(5,6))
+for(n in region_definitions$label) plotmap(region = n,main=n)
+
 
 # Mediterranean Sea with a spatial resolution of 4km (e.g. MODIS-Aqua)
 region_definitions[region_definitions$label == 'med4',]
