@@ -29,17 +29,22 @@
   # i2 <- which(u$x[1:ii] < u$x[ii])
   # dev.new(); maps::map(u,add=F,resolution=resolution,fill=T,col="grey")
   
-  m2 <- maps::map('worldHires', xlim=c(-180, -20),ylim=c(-60,90),plot=F,resolution=resolution,fill=T)
+  ### re-add eastern pacific-america-western atlantic!
+  m2 <- maps::map('worldHires', xlim=c(-180, 180),ylim=c(-60,90),plot=F,resolution=resolution,fill=T) # before xlim[2] was 20
   m2$x <- 180+180+m2$x
+
+# m3 <- m2
+# m3$x <- 180+180+m3$x
+
   # maps::map(m2,add=T,resolution=resolution,fill=T,col="grey")
   # axis(1); axis(2); box()
   # ii <- which(grepl("Antarctica",m2$names))
   # ii <- which(m2$names == "Antarctica"))
   # maps::map(m2,add=T,resolution=resolution,fill=T,col="grey")
-  
+
   worldmap <- m
-  worldmap$x <- c(m$x,NA,a0$x,NA,a1$x,NA,a2$x,NA,m2$x)
-  worldmap$y <- c(m$y,NA,a0$y,NA,a1$y,NA,a2$y,NA,m2$y)
+  worldmap$x <- c(m$x,NA,a0$x,NA,a1$x,NA,a2$x,NA,m2$x)#,NA,m3$x)
+  worldmap$y <- c(m$y,NA,a0$y,NA,a1$y,NA,a2$y,NA,m2$y)#,NA,m3$y)
   # dev.new(); worldmap <- maps::map(worldmap,resolution=0,fill=T,col="grey",xlim=c(-180, 360),ylim=c(-90,90))
 #   dev.new(); maps::map(worldmap,resolution=0,fill=T)
   return(worldmap)

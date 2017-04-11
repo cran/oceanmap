@@ -50,7 +50,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   
   if(!fill.land) col.land <- NA
 
-  ## old:
+  ## old_old:
   #   if(center == 'W'){
   #     if(any(r$xlim < 0)){
   #       r$xlim <- range(r$xlim)
@@ -59,17 +59,26 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   #     }
   #   }  
   
-  # old:
+  # new:
+# if(any(r$xlim < 0)){
+#   r$xlim <- r$xlim+360
+# }
+  
+  ## old:
   if(r$xlim[1] > r$xlim[2]){
     #     r$xlim <- range(180+180+r$xlim)
     #     r$xlim[r$xlim > 360] <- 360
+    if(r$xlim[2] < 0 & r$xlim[1] == abs(r$xlim[2])) r$xlim[2] <- r$xlim[1]+360
+    
+#     if(r$xlim[1] == 180 & r$xlim[2] == -180) r$xlim[2] <- 180+360
+    
     if(any(r$xlim < 0)){
       r$xlim <- range(r$xlim)
       r$xlim <- r$xlim[2:1]
       r$xlim[2] <- 180+180+r$xlim[2]
     }
   }  
-  
+  if(any(r$xlim > 540)) r$xlim <- r$xlim -360
 
   ### calculate default projection from map-package
   xrange <- r$xlim; yrange <- r$ylim; myborder <- 0.01
@@ -78,6 +87,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   if(missing(asp)) asp <- 1/aspect[1]
   ###
   
+if(any(r$xlim < -180)) r$xlim <- r$xlim+360
 
   if(add == F) {
     par(pty='m') ### plot background color as used in v()
@@ -87,7 +97,6 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   par(cex.axis=cex.ticks)
   lims <- par()$usr
   if(!is.na(col.bg)) rect(lims[1],lims[2],lims[3],lims[4],col=col.bg,border = NA)
-  
   if(fill.land){
     if(any(r$xlim > 180)) {
       #       data("worldmap", envir=environment())
@@ -113,11 +122,16 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
 
   #  # overplot landmask outside plotting region
   if(show.plot){
-    rect(r$xlim[1],-400,-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
-    rect(r$xlim[2],-400,400,400,col="white",border="white",xpd=T)
-    rect(-400,r$ylim[1],400,-400,col="white",border="white",xpd=T)
-    rect(-400,r$ylim[2],400,+400,col="white",border="white",xpd=T)
+    rect(r$xlim[1],-400,r$xlim[1]-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
+    rect(r$xlim[2],-400,r$xlim[2]+400,400,col="white",border="white",xpd=T)
+    rect(r$xlim[1]-400,r$ylim[1],r$xlim[2]+400,-400,col="white",border="white",xpd=T)
+    rect(r$xlim[1]-400,r$ylim[2],r$xlim[2]+400,+400,col="white",border="white",xpd=T)
     
+#     rect(r$xlim[1],-400,-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
+#     rect(r$xlim[2],-400,400,400,col="white",border="white",xpd=T)
+#     rect(-400,r$ylim[1],400,-400,col="white",border="white",xpd=T)
+#     rect(-400,r$ylim[2],400,+400,col="white",border="white",xpd=T)
+#     
     
     x <- c(ceiling(r$xlim[1]/grid.res)*grid.res, floor(r$xlim[2]/grid.res)*grid.res)
     y <- floor(r$ylim/grid.res)*grid.res

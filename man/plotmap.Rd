@@ -151,9 +151,9 @@ close_fig(do.save)
 
 #### Example 4: between hemispheres
 par(mfrow=c(2,1))
-plotmap(lon=c(80, -120), lat=c(-50, 10), main= "map from East to West")
-plotmap(lon=c(-120, 80), lat=c(-50, 10), main= "map from West to East")
-
+plotmap(lon=c(-180, 180), lat=c(-80, 80), main="map from West to East")
+plotmap(lon=c(0, 360), lat=c(-80, 80), main="map from West to East")
+# plotmap(lon=c(-360, 00), lat=c(-80, 80), main="map from West to East") # same as before
 
 #### Example 5: plot bathymetry and topography of the western Mediterranean Sea
 #get.bathy("medw4",visualize=T,terrain=T,res=3)

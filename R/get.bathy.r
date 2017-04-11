@@ -25,7 +25,7 @@ v.bathy <- get.bathy <- function(v_area,lon,lat,resolution=4, keep=F, savename.b
   if(missing(folder.bathy)) folder.bathy <- getwd()
   
   if(missing(savename.bathy)){
-    savename.bathy <- paste0('bathy_',bathy.area,'_res.',resolution,'.dat')
+    savename.bathy <- paste0('bathy_',bathy.area,'_res.',resolution,'min.dat')
   }else{
     if(!grepl(".dat", savename.bathy)) savename.bathy <- paste0(savename.bathy,'.dat')
   }
@@ -43,7 +43,7 @@ v.bathy <- get.bathy <- function(v_area,lon,lat,resolution=4, keep=F, savename.b
     }
     
   }else{
-    cat('loading bathymetry data at a resolution of',resolution ,"degrees\n")
+    cat('loading bathymetry data at a resolution of',resolution ,"minutes\n")
 #     bathy <- getNOAA.bathy(lon1 = min(lon), lon2 = max(lon), lat1 = min(lat), lat2 = max(lat),
 #                            resolution = resolution)   
     

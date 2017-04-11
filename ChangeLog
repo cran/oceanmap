@@ -1,5 +1,8 @@
 oceanmap versions
 
+oceanmap_0.0.5 April 11, 2017 (Robert Bauer)
+        - fixing minor bugs in plotmap()
+
 oceanmap_0.0.4 March 15, 2017 (Robert Bauer)
 	- setting the default projection of map() in plotmap() and v() calls
         - fixing minor bugs in plotmap() and v()
