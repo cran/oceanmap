@@ -1,4 +1,4 @@
-# last update: 18.sept.2013
+# last update: 28 april 2017
 plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
                     grid=T, grid.res, resolution=0, 
                     main, axeslabels=T, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
@@ -101,10 +101,10 @@ if(any(r$xlim < -180)) r$xlim <- r$xlim+360
     if(any(r$xlim > 180)) {
       #       data("worldmap", envir=environment())
       worldmap <- .get.worldmap(resolution)
-      maps::map(worldmap, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+      try(maps::map(worldmap, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border))
     }else{
       data('worldHiresMapEnv',envir=environment(),package="mapdata")
-      maps::map(database='worldHires', fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
+      try(maps::map(database='worldHires', fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border))
     }
     #### old code
     #   if(any(r$xlim > 180)) {
