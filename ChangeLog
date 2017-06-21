@@ -1,5 +1,11 @@
 oceanmap versions
 
+oceanmap_0.0.8 June 14, 2017 (Robert Bauer)
+        - fixing bug concerning the cb.xlab arument of the v()-version for ncdf files
+
+oceanmap_0.0.7 June 14, 2017 (Robert Bauer)
+        - adding axes argument to plotmap
+
 oceanmap_0.0.6 April 28, 2017 (Robert Bauer)
         - now allowing plotmap()-calls without terrain (fixing error in map.poly(): nothing to draw: all regions out of bounds)
 

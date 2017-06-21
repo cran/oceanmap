@@ -62,7 +62,7 @@ setMethod('v', signature(obj='nc'),
                 warning("no (time) layer defined from a netcdf-file, selecting first of ", n, " layer(s)")
               }
             }
-            v.raster(obj=obj2, layer=1:length(t),adaptive.vals=adaptive.vals,show.colorbar=show.colorbar,...)
+            v.raster(obj=obj2, layer=1:length(t),adaptive.vals=adaptive.vals,show.colorbar=show.colorbar,cb.xlab=cb.xlab,...)
           }
 )
 
@@ -79,7 +79,7 @@ setMethod('v', signature(obj='ncdf4'),
                 warning("no (time) layer defined from ncdf4-object, selecting first of ", n, " layer(s)")
               }
             }
-            v.raster(obj=obj2, layer=t,adaptive.vals=adaptive.vals, show.colorbar=T,...)
+            v.raster(obj=obj2, layer=t,adaptive.vals=adaptive.vals, show.colorbar=T, cb.xlab=cb.xlab, ...)
           }
 )
 

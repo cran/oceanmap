@@ -1,5 +1,5 @@
-124bb121880f54c3c7434201f67365ca *ChangeLog
-8293aa9b1ea45dc720b9400b972d2beb *DESCRIPTION
+ba003bd05e40927b6eab0a016b7d65ae *ChangeLog
+f1081d7731ce86d45a7da8078d8b2131 *DESCRIPTION
 5549fa4768068b387baa74745e0cde9b *NAMESPACE
 87fa9e8db083c1f4faafdf6af35baf09 *R/add.region.r
 5af3208a8cbf6634dbd130c5895892c7 *R/area_extrac.r
@@ -27,7 +27,7 @@ c160c6a073de52c1e59305d3dea8ba14 *R/name_join.r
 06e17dc65b71d44462cbc4fb93892c15 *R/nc2time.r
 42e88127218e06af63b5e74ee390f33c *R/param_convert.r
 7e4a186a1f468128a1fa6f09781a497c *R/param_unconvert.r
-77e4e1c27984a35159e264f866d0679c *R/plotmap.r
+3d859664c912f6e31d60758596806f4e *R/plotmap.r
 d13f86471d0ad796021d418138ee5a19 *R/raster2matrix.r
 2f6d9a583436ce211c0bb99445133020 *R/readbin.r
 c1b286c97476921508955366bdd16790 *R/region2SpatialPolygon.r
@@ -37,7 +37,7 @@ a2459d6e6587a481873ad85f30cfe213 *R/set.colorbarp.r
 e25beecac56ae85bae62e610dc5f4026 *R/sysdata.rda
 9331620788214606d0e6f78f93b9ea61 *R/v.gz.r
 faf9241293ce74bf3f4926198314cd50 *R/v.plot.r
-d57744f783241e2e87d6645920bdc1fd *R/v.r
+9cc4794acd7a292f18fee514d51cabdd *R/v.r
 68c43b1551134cc9b8d4f47216284173 *R/v.raster.r
 c7f37baae84a9d4473c8a254f7f86bb6 *R/writebin.r
 b4f3e1ae4597f2abe907dd5337d68451 *data/cmap.rda
@@ -46,7 +46,7 @@ b4f3e1ae4597f2abe907dd5337d68451 *data/cmap.rda
 58bb3d0270969b3912ecfbd680152fe0 *data/parameter_definitions.rda
 fe091873cfede8f7f7c637bb91f51475 *data/region_definitions.bkp.rda
 f5b2beab28c61fecd84df7c8595eaa8b *data/region_definitions.rda
-27413cd97655731b147e21710deb6ce0 *inst/doc/oceanmap.pdf
+2088d7952cc13bb85f0dc50210cb71d5 *inst/doc/oceanmap.pdf
 f680d9aafbd9fef4c8a3ba4b78644248 *inst/test_files/copyrights
 9670ead9d281a00ad59e91012e0885e7 *inst/test_files/herring_lavae.nc
 c172104eccf8702f729518569e5c0da7 *inst/test_files/med4_avhrr_p100_4km_1m_20030601_20030630.smoothgrad.0.04-3-5.edge.gz
@@ -86,7 +86,7 @@ ac1a36bb23a1eef19da8bb6a7a7a712f *man/nc2raster.Rd
 f02c9a4ac10b3283dc0a5e3102bf5415 *man/oceanmap.Rd
 67d12fa72ccffcc2470e20335d8de725 *man/param_convert.Rd
 b65cefb5e64980c3c47f5499b5e79449 *man/parameter_definitions.Rd
-32c4e7dbb24da7996905a4a05a3ad0b8 *man/plotmap.Rd
+a6492f7e4b1b487068585ee6552d1785 *man/plotmap.Rd
 298a2c2a688302b19e1dd172fc96cd5e *man/raster2matrix.Rd
 03066a4dd6e08ad12313d544d2475d23 *man/readbin.Rd
 eff9cc6ecf523e83f77f2c70b8499192 *man/region2SpatialPolygon.Rd

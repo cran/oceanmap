@@ -1,7 +1,7 @@
 # last update: 28 april 2017
 plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
                     grid=T, grid.res, resolution=0, 
-                    main, axeslabels=T, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
+                    main, axes=T, axeslabels=axes, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
                     fill.land=T, col.land="grey", col.bg=NA, border='black', bwd=2, las=1, v_area, xlim, ylim){
   #   inst.pkg("maps") # needed to provide landmask
   #   #inst.pkg("mapdata") # needed to provide fine resolution landmask "worldHires"
@@ -27,7 +27,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   if(!missing(region)){ #' if region information is given
     if(class(region) == 'character') {
       r <- regions(region) # get regions defintions/2 (extent and name)
-#       center <- r$center ## no longer needed!
+      #       center <- r$center ## no longer needed!
       if(missing(grid.res)) grid.res <- r$grid.res[1]
     }else{
       if(grepl('Raster', class(region)) | grepl('Extent', class(region))){
@@ -45,11 +45,11 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
     }
   }
   if(!missing(lon) & !missing(lat))  r <- data.frame(xlim=lon,ylim=range(lat))
-
+  
   if(missing(grid.res)) grid.res <- .get.grid.res(r)
   
   if(!fill.land) col.land <- NA
-
+  
   ## old_old:
   #   if(center == 'W'){
   #     if(any(r$xlim < 0)){
@@ -60,9 +60,9 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   #   }  
   
   # new:
-# if(any(r$xlim < 0)){
-#   r$xlim <- r$xlim+360
-# }
+  # if(any(r$xlim < 0)){
+  #   r$xlim <- r$xlim+360
+  # }
   
   ## old:
   if(r$xlim[1] > r$xlim[2]){
@@ -70,7 +70,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
     #     r$xlim[r$xlim > 360] <- 360
     if(r$xlim[2] < 0 & r$xlim[1] == abs(r$xlim[2])) r$xlim[2] <- r$xlim[1]+360
     
-#     if(r$xlim[1] == 180 & r$xlim[2] == -180) r$xlim[2] <- 180+360
+    #     if(r$xlim[1] == 180 & r$xlim[2] == -180) r$xlim[2] <- 180+360
     
     if(any(r$xlim < 0)){
       r$xlim <- range(r$xlim)
@@ -79,7 +79,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
     }
   }  
   if(any(r$xlim > 540)) r$xlim <- r$xlim -360
-
+  
   ### calculate default projection from map-package
   xrange <- r$xlim; yrange <- r$ylim; myborder <- 0.01
   aspect <- c(cos((mean(yrange) * pi)/180), 1)
@@ -87,8 +87,8 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   if(missing(asp)) asp <- 1/aspect[1]
   ###
   
-if(any(r$xlim < -180)) r$xlim <- r$xlim+360
-
+  if(any(r$xlim < -180)) r$xlim <- r$xlim+360
+  
   if(add == F) {
     par(pty='m') ### plot background color as used in v()
     plot(10000,10000,type="p",cex=0,axes=F,xlim=r$xlim,ylim=r$ylim,xlab="",ylab="",asp=asp) # l functions sets right axes limits, neccessary for maps
@@ -119,19 +119,20 @@ if(any(r$xlim < -180)) r$xlim <- r$xlim+360
     #     maps::map(database=worlddb, fill=fill.land, col=col.land,xlim=r$xlim,ylim=r$ylim,add=T,resolution=resolution,border=border)
     #   }
   }
-
+  
   #  # overplot landmask outside plotting region
   if(show.plot){
-    rect(r$xlim[1],-400,r$xlim[1]-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
-    rect(r$xlim[2],-400,r$xlim[2]+400,400,col="white",border="white",xpd=T)
-    rect(r$xlim[1]-400,r$ylim[1],r$xlim[2]+400,-400,col="white",border="white",xpd=T)
-    rect(r$xlim[1]-400,r$ylim[2],r$xlim[2]+400,+400,col="white",border="white",xpd=T)
-    
-#     rect(r$xlim[1],-400,-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
-#     rect(r$xlim[2],-400,400,400,col="white",border="white",xpd=T)
-#     rect(-400,r$ylim[1],400,-400,col="white",border="white",xpd=T)
-#     rect(-400,r$ylim[2],400,+400,col="white",border="white",xpd=T)
-#     
+    if(axes){
+      rect(r$xlim[1],-400,r$xlim[1]-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
+      rect(r$xlim[2],-400,r$xlim[2]+400,400,col="white",border="white",xpd=T)
+      rect(r$xlim[1]-400,r$ylim[1],r$xlim[2]+400,-400,col="white",border="white",xpd=T)
+      rect(r$xlim[1]-400,r$ylim[2],r$xlim[2]+400,+400,col="white",border="white",xpd=T)
+    }
+    #     rect(r$xlim[1],-400,-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
+    #     rect(r$xlim[2],-400,400,400,col="white",border="white",xpd=T)
+    #     rect(-400,r$ylim[1],400,-400,col="white",border="white",xpd=T)
+    #     rect(-400,r$ylim[2],400,+400,col="white",border="white",xpd=T)
+    #     
     
     x <- c(ceiling(r$xlim[1]/grid.res)*grid.res, floor(r$xlim[2]/grid.res)*grid.res)
     y <- floor(r$ylim/grid.res)*grid.res
@@ -146,14 +147,16 @@ if(any(r$xlim < -180)) r$xlim <- r$xlim+360
     xlabels[xlabels > 180] <- xlabels[xlabels > 180] - 360
     NS <- rep(" N",length(ylabels))
     NS[ylabels < 0] <- " S"
-
+    
     if(length(ticklabels) == 1) ticklabels <- rep(ticklabels,2)
     XLabels <- switch(ticklabels[1]+1,rep('',length(xlabels)),parse(text = paste(abs(xlabels)," *degree ~",EW,sep="")))
     YLabels <- switch(ticklabels[2]+1,rep('',length(ylabels)),parse(text = paste(abs(ylabels)," *degree ~",NS,sep="")))
-    axis(1,pos=r$ylim[1],at=at.xlabels,labels=XLabels,lwd=0,lwd.ticks=1)
-    axis(2,pos=r$xlim[1],at=ylabels,labels=YLabels,las=las,lwd=0,lwd.ticks=1)
-    axis(side=3,pos=r$ylim[2],at=at.xlabels,labels=F,tick=T,lwd=0,lwd.ticks=1)
-    axis(side=4,pos=r$xlim[2],at=ylabels,labels=F,tick=T,las=las,lwd=0,lwd.ticks=1)
+    if(axes) {
+      axis(1,pos=r$ylim[1],at=at.xlabels,labels=XLabels,lwd=0,lwd.ticks=1)
+      axis(2,pos=r$xlim[1],at=ylabels,labels=YLabels,las=las,lwd=0,lwd.ticks=1)
+      axis(side=3,pos=r$ylim[2],at=at.xlabels,labels=F,tick=T,lwd=0,lwd.ticks=1)
+      axis(side=4,pos=r$xlim[2],at=ylabels,labels=F,tick=T,las=las,lwd=0,lwd.ticks=1)
+    }
     
     par(cex.axis=cex.lab)
     if(length(axeslabels) == 1) axeslabels <- rep(axeslabels,2)
@@ -163,7 +166,7 @@ if(any(r$xlim < -180)) r$xlim <- r$xlim+360
     if(axeslabels[2]) axis(2,pos=tail(axeslabels.pos,1),at=mean(r$ylim),labels="Latitude",tcl=0,mgp=c(0,2.5+las*0.3,0),xpd=T) # parse(text = paste("longitude [ *degree ~ N]",sep=""))
     
     if(grid == T) .grid2(r$xlim,r$ylim,grid.res,"black") # plot grid
-    ..boundaries(r$xlim,r$ylim,grid.res,bwd=bwd, asp=asp) # plot ..boundaries
+    if(!(bwd %in% c(NA,F))) ..boundaries(r$xlim,r$ylim,grid.res,bwd=bwd, asp=asp) # plot ..boundaries
     
     if(!missing(main)) title(main)
   }

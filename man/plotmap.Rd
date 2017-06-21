@@ -8,7 +8,7 @@ plots the landmask of a region defined by a \code{region}-key word, georgraphica
 \usage{
 plotmap(region=v_area, lon, lat, add=F, asp,
         grid=T, grid.res, resolution=0, 
-        main, axeslabels=T, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
+        main, axes=T, axeslabels=axes, ticklabels=T, cex.lab=0.8, cex.ticks=0.8, 
         fill.land=T, col.land="grey", col.bg=NA, border='black', bwd=2, las=1, 
         v_area, xlim, ylim
         )
@@ -34,8 +34,9 @@ numeric, giving the aspect y/x-ratio of the y- and x-axes. See \link{plot.window
   \item{main}{
 title to be plotted
 }
-  \item{axeslabels}{
-whether axis-labels (longitude and latitude) should be added to the axes (default is \code{TRUE}). Can be a single value or a vector of size two.
+  \item{axes, axeslabels}{
+whether axes and axes-labels (longitude and latitude) should be plotted (default is \code{TRUE}). 
+\code{axes-labels} can be a single value or a vector of size two, representing values for x and y axis, respectively.
 }
 
   \item{ticklabels}{
@@ -159,6 +160,11 @@ plotmap(lon=c(0, 360), lat=c(-80, 80), main="map from West to East")
 #get.bathy("medw4",visualize=T,terrain=T,res=3)
 #get.bathy("medw4",visualize=T,terrain=F,res=3,levels=c(200,2000)) # show contours
 #get.bathy("lion",visualize=T,terrain=F,res=3,levels=c(200,2000),v_image=F) # show only contours
+
+#### Example 6: testing some additional arguments
+lon <- c(-180,200); lat <- c(-80,90); 
+ext <- extent(lon, lat)
+plotmap(ext, border=NA, bwd=NA, grid=FALSE, col.land = "#9ac0cd",axes=FALSE)
 
 }
 
