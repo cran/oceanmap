@@ -18,7 +18,6 @@ v.gz <- function(obj, v_area=region, adaptive.vals=F, param, zlim, minv, maxv, r
   
   if(!missing(width) & !missing(height)) figdim <- c(width, height)
 
-  if(!missing(cbpos)) warning('cbpos argument is ignored since v-run on gz-file')
   #     obj <- subset(obj, substr(obj, nchar(obj)-2, nchar(obj)) == ".gz") # select binary files of which area is known
   file_def <- name_split(obj)
   if(missing(param)) param <- file_def$parameter
@@ -44,6 +43,12 @@ v.gz <- function(obj, v_area=region, adaptive.vals=F, param, zlim, minv, maxv, r
   r <- regions(v_area)
   if(!missing(cbx)) r$cbx <- cbx
   if(!missing(cby)) r$cbx <- cby
+  if(!missing(cbpos)){
+    cb <- cust.colorbar(v_area,cbpos=cbpos,figdim=figdim,force.figdim.widget=F)
+    r$cbx <- cb$cbx
+    r$cby <- cb$cby
+    r$align <- cb$align
+  }
   if(missing(grid.res)) grid.res <- .get.grid.res(r)
   if(!missing(figdim)) r$figdim <- figdim
   

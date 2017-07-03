@@ -1,6 +1,9 @@
 oceanmap versions
 
-oceanmap_0.0.8 June 14, 2017 (Robert Bauer)
+oceanmap_0.0.9 July 03, 2017 (Robert Bauer)
+        - allowing cbpos-usage in v()-calls on gz-files
+
+oceanmap_0.0.8 June 21, 2017 (Robert Bauer)
         - fixing bug concerning the cb.xlab arument of the v()-version for ncdf files
 
 oceanmap_0.0.7 June 14, 2017 (Robert Bauer)

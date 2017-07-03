@@ -69,10 +69,18 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
         if(missing(add)) add <- c()
 
         if(!(length(add) == length(region_definitions))){
+          warning("provided object for the functions' argument 'add' does not correspond to region_definitions-objects!")
           v_area <- c()
           if(grepl('Raster', class(add)) | grepl('Extent', class(add))){
             v_area <- as.vector(t(sp::bbox(extent(add))))
           }
+          if("lon" %in% names(add) & "lat" %in% names(add)){
+            v_area <- c(add$lon,add$lat)
+          }
+          if("xlim" %in% names(add) & "ylim" %in% names(add)){
+            v_area <- c(add$xlim,add$ylim)
+          }
+          
           add.lon <- v_area[1:2]
           add.lat <- v_area[c(4,3)]
           if(widget){
@@ -91,8 +99,9 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
                 if(i %in% 5:6 & length(add.lon) > 0){
                   val <- add.lon[which(5:6 %in% i)]
                 }else{
-                  val <- readline(paste0("\nPlease define the ",longnames[i], " of the new region, \ncoded as '",names(region_definitions)[i],"':"))
+                  val <- readline(paste0("\nPlease define the ",longnames[i], " of the new region, \ncoded as '",names(region_definitions)[i],"'or press 's' to abort the operation:"))
                   cat(val)
+                  if(val == 's') stop('operation stopped!')
                   if(i == 1 & val %in% region_definitions$label){
                     answer <- readline(paste0("\nregion label '", val, "' already exists!\nPlease type 'y' if you like to overwrite previous region definition or any other key to revise entry?"))
                     if(answer == 'y') {

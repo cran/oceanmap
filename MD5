@@ -1,7 +1,7 @@
-ba003bd05e40927b6eab0a016b7d65ae *ChangeLog
-f1081d7731ce86d45a7da8078d8b2131 *DESCRIPTION
+1fdc92c9b688187e219736abf7a008de *ChangeLog
+e886af123d6adb97038423b84a5626fd *DESCRIPTION
 5549fa4768068b387baa74745e0cde9b *NAMESPACE
-87fa9e8db083c1f4faafdf6af35baf09 *R/add.region.r
+4865e8ecbc1768ad2c62adee7e1f74de *R/add.region.r
 5af3208a8cbf6634dbd130c5895892c7 *R/area_extrac.r
 8a88ad2e77f0d8f76f9bd092293024d7 *R/bindate2Title.r
 64e1f914e1cb45cc0d4e9cde07ed8fdd *R/bindate2main.r
@@ -35,7 +35,7 @@ c1b286c97476921508955366bdd16790 *R/region2SpatialPolygon.r
 70ae208e12df1e5d9318e71a8c12d55c *R/set.colorbar.r
 a2459d6e6587a481873ad85f30cfe213 *R/set.colorbarp.r
 e25beecac56ae85bae62e610dc5f4026 *R/sysdata.rda
-9331620788214606d0e6f78f93b9ea61 *R/v.gz.r
+fc65efcd923333ba416372f12f5c22ba *R/v.gz.r
 faf9241293ce74bf3f4926198314cd50 *R/v.plot.r
 9cc4794acd7a292f18fee514d51cabdd *R/v.r
 68c43b1551134cc9b8d4f47216284173 *R/v.raster.r
@@ -44,9 +44,9 @@ b4f3e1ae4597f2abe907dd5337d68451 *data/cmap.rda
 40df182927eb4e227183771d044d656c *data/cmap_topo.rda
 87d5a15cea47997c09c37fcc79445e25 *data/datalist
 58bb3d0270969b3912ecfbd680152fe0 *data/parameter_definitions.rda
-fe091873cfede8f7f7c637bb91f51475 *data/region_definitions.bkp.rda
-f5b2beab28c61fecd84df7c8595eaa8b *data/region_definitions.rda
-2088d7952cc13bb85f0dc50210cb71d5 *inst/doc/oceanmap.pdf
+debb5d529603b66ccf9c16c612ca2682 *data/region_definitions.bkp.rda
+debb5d529603b66ccf9c16c612ca2682 *data/region_definitions.rda
+46c3faf637fc9c2a1177ca829109c51a *inst/doc/oceanmap.pdf
 f680d9aafbd9fef4c8a3ba4b78644248 *inst/test_files/copyrights
 9670ead9d281a00ad59e91012e0885e7 *inst/test_files/herring_lavae.nc
 c172104eccf8702f729518569e5c0da7 *inst/test_files/med4_avhrr_p100_4km_1m_20030601_20030630.smoothgrad.0.04-3-5.edge.gz
