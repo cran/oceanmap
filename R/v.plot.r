@@ -3,11 +3,10 @@
                     subplot, xpos, Save, plotfolder, plotname, fileformat, 
                     param, param_def, file_def, r, outfile.name,
                     v_area,v_image,v_contour,levels, contour.labels, v_arrows, scale_arrow, suffix,
-                    fill.land, col.land, col.bg, border, grid, grid.res, bwd,las, asp,...){ # further arguments passed to plotmap
+                    fill.land, col.land, col.bg, border, grid, grid.res, bwd,las, asp, verbose,...){ # further arguments passed to plotmap
   
   #   cat('\nrunning .v.plot')
   ## set folder to plot in
-  if(!missing(plotfolder)) plotfolder <- .check.folder(plotfolder)
   if(!missing(zlim)){
     minv <- zlim[1] 
     maxv <- zlim[2]
@@ -47,6 +46,9 @@
     if(Save){
       if(!missing(plotname)) outfile.name <- plotname
       if(!grepl(fileformat, outfile.name)) outfile.name <- paste0(outfile.name,suffix,".",fileformat)
+      if(missing(plotfolder)) plotfolder <- "."
+      plotfolder <- .check.folder(plotfolder)
+      
       outfile <- paste0(plotfolder,"",outfile.name)    
       
       if(fileformat == "eps" | fileformat == "ps"){ 
@@ -100,11 +102,13 @@
     path_parts <- unlist(strsplit(path1,param))
     path2 <- paste(path_parts[1], param2,path_parts[2],sep="")
     file2 <- name_join(file_def)
-    if(!file.exists(file2)) setwd(path2)
-    b2 <- readbin(file2)
+    folder <- path2
+    folder <- paste0(folder, "/"); folder <- gsub('//','/',folder)
+    sstring <- file2
+    if(!file.exists(file2)) sstring <- paste0(folder,file2)
+    b2 <- readbin(sstring)
     b2[] <- b2[]*scale_arrow
     values <- c(values,setNames(list(b2),param2))
-    setwd(path1) # assign values of second file
     
     x <- getValues(init(values[[u]], v='x'),format='matrix')
     y <- getValues(init(values[[v]], v='y'),format='matrix')
@@ -329,7 +333,7 @@
   if(!missing(main)) text(mean(r$xlim),r$ylim[2]+0.1*diff(r$ylim),main,cex=1.7,font=2,xpd=T)
   
   plotinfolder <- c(paste(", in folder: ",plotfolder,sep="")," ")
-  cat(paste0("\nprinting file: ",outfile.name,plotinfolder[2-as.numeric(Save)],"\n")) # display files to print
+  if(verbose) cat(paste0("\nprinting file: ", outfile.name, plotinfolder[2-as.numeric(Save)],"\n")) # display files to print
   
   if(Save){
     dev.off()

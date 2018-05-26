@@ -84,9 +84,9 @@ head(region_definitions)
 region_definitions$label
 # ?region_definitions
 
-figure(width=15,height=15)
-par(mfrow=c(5,6))
-for(n in region_definitions$label) plotmap(region = n,main=n)
+# figure(width=15,height=15)
+# par(mfrow=c(5,6))
+# for(n in region_definitions$label) plotmap(region = n,main=n)
 
 
 # Mediterranean Sea with a spatial resolution of 4km (e.g. MODIS-Aqua)
@@ -101,9 +101,8 @@ plotmap('med9')
 
 
 ## Example for selecting wrong area definition when saving files
-setwd(system.file("test_files", package="oceanmap"))
-gz.files <- Sys.glob('med4*.gz') # load sample-med4'.gz'-files
-v(gz.files[1])
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/med4*.gz')) # load sample-med4'.gz'-files
 
 fname <- name_split(gz.files[1])
 param <- fname$parameter
@@ -111,10 +110,10 @@ gz <- readbin(gz.files[1])
 dim(gz)
 v(gz.files[1])
 
-# reset region name
-fname$area <- 'med9'
-fname <- name_join(fname)
-writebin(gz,fname,param=param)
-v(fname)
-system(paste('rm', fname))
+## reset region name
+# fname$area <- 'med9'
+# fname <- name_join(fname)
+# writebin(gz,fname,param=param)
+# v(fname,folder=".")
+# system(paste('rm', fname))
 }

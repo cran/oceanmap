@@ -14,9 +14,9 @@ set.colorbar(cbx, cby, cbpos, pal='jet', zlim, ticks=1:10, labels=ticks, gradien
              oticks, cb.title="", cb.xlab="", font=1, cex=1, 
              cex.cb.title=0.9, cex.cb.xlab=0.8, cex.cb.ticks=0.7, cb.ticks.srt=90, 
              cb.ticks.length, cb.ticks.ypos, cb.ticks.lwd=1, 
-             integer=F, cb.xlab.line=0, ...)
+             integer=F, cb.xlab.line=0, total.reg, cbxp, cbyp,...)
              
-set.colorbarp(cbxp, cbyp, total.reg, ...)
+set.colorbarp(cbxp, cbyp, total.reg=T, year_bar=F, pal="jet",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,6 +36,10 @@ set.colorbarp(cbxp, cbyp, total.reg, ...)
   \item{total.reg}{
 (\code{set.colorparp}-argument)
 if colorbar placement is relative to current subplot or entire figure region.
+}
+
+  \item{year_bar}{
+  whether to plot a colorbar with monthly ticks (by default \code{FALSE})
 }
 
   \item{pal}{

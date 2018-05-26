@@ -6,12 +6,15 @@ plots \code{'.gz'}-file climatologies}
 Creates climatology plots of \code{'.gz'}-files. \bold{ATTENTION!} This function requires an ImageMagick installation, but runs also under Windows operating systems. 
 }
 \usage{
-clim_plot(obj, plotfolder=".", plotname, question=T, sst.frontcolor='red', 
+clim_plot(obj, folder,plotfolder=".", plotname, question=T, sst.frontcolor='red', 
           chla.frontcolor='blue', sidelabels = F, Ylab = F, axeslabels = T, v_area, ...)
 }
 \arguments{
  \item{obj}{
 Character string indicating search criteria for climatology \code{'.gz'}-files. 
+}
+ \item{folder}{
+directory where data files are located (optional).
 }
  \item{plotfolder}{
 directory where image should be saved.
@@ -61,12 +64,12 @@ Robert K. Bauer
 
 \examples{
 ## Example 1: plot seasonal '.gz'-files, following default plot-procedure
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-check_gzfiles() # return file summary-table
-gz.files <- Sys.glob('*1s_*.gz') # load seasonal '.gz'-files
-v(gz.files) # as single plots
+path <- system.file("test_files", package="oceanmap")
+gz.file <- Sys.glob(paste0(path,'/*.gz'))[1] # load sample-'.gz'-files
+check_gzfiles(folder=path) # return file summary-table
+gz.files <- Sys.glob(paste0(path,'/*1s_*.gz')) # load seasonal '.gz'-files
+# v(gz.files) # as single plots
 
-# as combined climatology plot, saved in plotfolder
-clim_plot(gz.files,plotfolder=owd,plotname='chla.summary.png') 
+## as combined climatology plot, saved in plotfolder
+# clim_plot(gz.files,plotname='chla.summary.png') 
 }

@@ -42,8 +42,8 @@ matrix2raster(a,layer=1)
 
 ## Example 3: convert '.nc'-file to raster-object manually
 owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-ncfile <- Sys.glob('herring*.nc') # load sample-'.nc'-files
+path <- system.file("test_files", package="oceanmap")
+ncfile <- Sys.glob(paste0(path,'/herring*.nc')) # load sample-'.nc'-files
 
 library('ncdf4')
 library('raster')

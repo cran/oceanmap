@@ -1,6 +1,6 @@
 
 readbin <- function(filename,area,Image=F,byte=F,Raster=T){
-
+  print(filename)
   filename <- Sys.glob(filename)
   if(length(filename) == 0) stop('search string does not match. please check!')
   if(length(filename) == 1){
@@ -42,7 +42,12 @@ readbin <- function(filename,area,Image=F,byte=F,Raster=T){
 }
 
 .readbin.single <- function(filename, Image=F,byte=F,Raster=T,area){
-  filename_splitted <- unlist(strsplit(filename,"\\_"))
+  ii <- tail(which(strsplit(filename, "")[[1]]=="/"),1)
+  # folder <- substr(obj,1,ii)
+  # folder <- paste0(folder, "/"); folder <- gsub('//','/',folder)
+  obj <- substr(filename,ii+1,nchar(filename))
+  
+  filename_splitted <- unlist(strsplit(obj,"\\_"))
   
   param <- filename_splitted[3]
   SIZE <- switch((param == "bathy")+1,1,2)

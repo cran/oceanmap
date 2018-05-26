@@ -30,9 +30,9 @@ Robert K. Bauer
 \keyword{internal}
 
 \examples{
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-gz.files <- Sys.glob('*.gz') # load sample-'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
+
 obj <- readbin(gz.files[2],area='lion')
 ncorse <- crop(obj,extent(6,9,40,42))
 cbx <-c(8.3,8.9)

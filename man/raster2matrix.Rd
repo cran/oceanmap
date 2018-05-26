@@ -24,10 +24,9 @@ Robert K. Bauer
 
 \examples{
 library('raster')
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-check_gzfiles() # return file summary-table
-gz.files <- Sys.glob('*.gz') # load sample-'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
+check_gzfiles(folder=path) # return file summary-table
 
 raster.file <- readbin(gz.files[1]) # loading gz-file as raster-layer
 image(raster.file)

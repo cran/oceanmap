@@ -34,8 +34,8 @@ Robert K. Bauer
 
 \examples{
 ## Example 1: output of different bindate2???-functions
-setwd(system.file("test_files", package="oceanmap"))
-gz.files <- Sys.glob('*.gz') # load sample-'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
 u <- name_split(gz.files)
 
 print(gz.files[1]) # print filename

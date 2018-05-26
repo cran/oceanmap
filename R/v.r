@@ -14,7 +14,7 @@ setClass('ncdf4')
 v <- function(obj, ...) UseMethod("v")
 
 setMethod('v', signature(obj='character'), 
-          function(obj,...){
+          function(obj,folder,...){
             if(length(obj) == 0) stop(paste('No file corresponds to search string entered! Please revise or .check.folder!'))
             obj.opt <- 1
             for(s in obj){
@@ -22,7 +22,12 @@ setMethod('v', signature(obj='character'),
                 class(obj.opt) <- 'bathy'
                 v(obj=obj.opt,...)
               }else{
-                files <- Sys.glob(s)
+                ss <- s
+                if(!missing(folder)){
+                  folder <- paste0(folder, "/"); folder <- gsub('//','/',folder)
+                  ss <- paste0(folder,"*",s)
+                }
+                files <- Sys.glob(ss)
                 if(length(files) == 0) stop(paste('No file corresponds to search string entered! Please revise or .check.folder!'))
                 for(files.sub in files){
                   if(grepl('.gz', files.sub, fixed=T)){ # fixed necessary since otherwise "point" is not recognized.

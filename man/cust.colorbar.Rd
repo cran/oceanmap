@@ -72,9 +72,8 @@ Robert K. Bauer
 }
 \examples{
 ## Example:
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-nfiles <- Sys.glob('*.nc') # load sample-'.nc'-files
+path <- system.file("test_files", package="oceanmap")
+nfiles <- Sys.glob(paste0(path,'/herring*.nc')) # load sample-'.nc'-files
 head(nfiles)
 rfile <- nc2raster(nfiles[1], varname='Conc', layer=1)
 

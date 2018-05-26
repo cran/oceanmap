@@ -4,7 +4,7 @@ v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, ada
                      subplot=F, width, height, figdim, xpos=-1, Save=F, plotfolder=".", plotname, fileformat="png", suffix, 
                      region, v_area=region, v_image=T, v_contour=F, levels, contour.labels=NULL, v_arrows=F, scale_arrow=1, 
                      fill.land=T, col.land="grey", col.bg=NA,border='black', grid=T, grid.res, bwd=2,cb.ticks.srt=90,las=1,
-                     dates,terrain=T){
+                     dates,terrain=T,verbose=T){
   if(missing(show.colorbar)) show.colorbar <- T    
   if(missing(param) & missing(varname)) {
     param <- ''
@@ -130,6 +130,6 @@ v.raster <- function(obj, varname, layer=1, param=varname, zlim, minv, maxv, ada
            # v_area, 
            show.colorbar=show.colorbar,suffix=suffix,
            v_image=v_image, v_contour=v_contour, levels=levels, contour.labels=contour.labels, v_arrows=F,
-           fill.land=fill.land, col.land=col.land, col.bg=col.bg,border=border, grid=grid, grid.res=grid.res, bwd=bwd,las=las)
+           fill.land=fill.land, col.land=col.land, col.bg=col.bg,border=border, grid=grid, grid.res=grid.res, bwd=bwd,las=las,verbose=verbose)
   }
 }

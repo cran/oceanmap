@@ -26,12 +26,12 @@ See \link{region_definitions} for area definitions and use \link{add.region} to 
 library(raster)
 
 # load sample-'.gz'-file
-setwd(system.file("test_files", package="oceanmap"))
-gz.files <- Sys.glob('*.gz')
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz'))[1] # load sample-'.gz'-files
 print(gz.files)
 # area_extrac(gz.files[1],area='lion')
 
-# gz <- Sys.glob('lion*.gz') # load new-'.gz'-file
+# gz <- Sys.glob(path,'/medw4*.gz') # load new-'.gz'-file
 # v(gz) # visualize new-'.gz'-file
 # system(paste('rm', gz))       
 # v(gz.files[1],v_area='lion')

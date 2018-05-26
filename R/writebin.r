@@ -1,4 +1,4 @@
-writebin <- function(satdata,filename,param){
+writebin <- function(satdata,filename,folder,param){
   region_definitions <- NULL
   rm(region_definitions)
   data('region_definitions',envir=environment())
@@ -20,6 +20,10 @@ writebin <- function(satdata,filename,param){
   A[is.na(A)] <- 255 # set clouds
   A <- as.vector(A[,ncol(A):1],mode="integer")
   
+  if(!missing(folder)){
+    folder <- paste0(folder, "/"); folder <- gsub('//','/',folder)
+    filename <- paste0(folder,filename)
+  }
   confile <- gzfile(filename,"wb") #  Open for writing in binary mode
   writeBin(A,confile,size)
   close(confile)

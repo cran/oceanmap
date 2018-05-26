@@ -46,12 +46,6 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     height <- 0.393701*height
   }
   d <- format(Sys.Date(),format='%Y%m%d')
-  owd <- getwd()
-  setwd(folder)
-  #   old <- Sys.glob(paste0(filename,"*",".pdf"))
-  #   if(length(old) > 0 & delete.old) system(paste(c("rm",old),collapse=" ")) # delete old versions
-  setwd(owd)
-  d <- format(Sys.Date(),format='%Y%m%d')
   #     f <- paste0(.check.folder(folder),.check.point(filename),"_",d,".eps")
   f <- paste0(.check.folder(folder),.check.point(filename),".pdf")
   if(file.exists(f)) {
@@ -77,12 +71,6 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     height <- 0.393701*height
   }
   d <- format(Sys.Date(),format='%Y%m%d')
-  owd <- getwd()
-  setwd(folder)
-  #     old <- Sys.glob(paste0(filename,"*",".eps"))
-  #     if(length(old) > 0 & delete.old) system(paste(c("rm",old),collapse=" ")) # delete old versions
-  setwd(owd)
-  d <- format(Sys.Date(),format='%Y%m%d')
   #     f <- paste0(.check.folder(folder),.check.point(filename),"_",d,".eps")
   f <- paste0(.check.folder(folder),.check.point(filename),".eps")
   if(file.exists(f)) {
@@ -104,11 +92,6 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     loadfonts(quiet = TRUE) ## for postscript
   }
   d <- format(Sys.Date(),format='%Y%m%d')
-  owd <- getwd()
-  setwd(folder)
-  #   old <- Sys.glob(paste0(filename,"*",".png"))
-  #   if(length(old) > 0 & delete.old) system(paste(c("rm",old),collapse=" ")) # delete old versions
-  setwd(owd)
   #   f <- paste0(.check.folder(folder),.check.point(filename),"_",d,".png")
   f <- paste0(.check.folder(folder),.check.point(filename),".png")
   if(file.exists(f)) {
@@ -122,11 +105,6 @@ figure <- function(filename,folder,type,save=F,do.save=save,
 
 .save.jpg <- .save.jpeg <- function(filename,folder=".",width=7,height=7,units="in",res=300,delete.old=T, quality=100,family='Arial'){
   d <- format(Sys.Date(),format='%Y%m%d')
-  owd <- getwd()
-  setwd(folder)
-  #   old <- Sys.glob(paste0(filename,"*",".jpeg"))
-  #   if(length(old) > 0 & delete.old) system(paste(c("rm",old),collapse=" ")) # delete old versions
-  setwd(owd)
   #   f <- paste0(.check.folder(folder),.check.point(filename),"_",d,".jpeg")
   f <- paste0(.check.folder(folder),.check.point(filename),".jpeg")
   if(file.exists(f)) {

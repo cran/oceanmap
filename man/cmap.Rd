@@ -28,12 +28,12 @@ data(cmap_topo)
 data('cmap') # load color maps data
 names(cmap) # list available color maps
 
-setwd(system.file("test_files", package="oceanmap"))
-gz.files <- Sys.glob('*.gz')
-figure(width=15,height=15)
-par(mfrow=c(4,5))
-for(n in names(cmap)) v(gz.files[2], v_area='lion', subplot=TRUE,
-                        pal=n, adaptive.vals=TRUE, main=n)
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
+# figure(width=15,height=15)
+# par(mfrow=c(4,5))
+# for(n in names(cmap)) v(gz.files[2], v_area='lion', subplot=TRUE,
+#                         pal=n, adaptive.vals=TRUE, main=n)
 
 ## simple example of the \link{image}-function
 x <- 10*(1:nrow(volcano))

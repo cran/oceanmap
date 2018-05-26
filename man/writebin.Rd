@@ -6,7 +6,7 @@ Saves geographic data as byte file (\code{'.gz'})}
 Saves geographic data as byte file, in gzip compressed format (\code{'.gz'}). \bold{ATTENTION!}! Only 2D (one layer) can be stored!
 }
 \usage{
-writebin(satdata,filename,param)
+writebin(satdata,filename,folder,param)
 }
 \arguments{
 \item{satdata}{
@@ -18,7 +18,9 @@ character string indicating the parameter name for the dataset treatment. See \c
   \item{filename}{
 character string naming the \code{'.gz'}-file to be created. 
 }
-
+  \item{folder}{
+character string indicating the target directory. 
+}
 }
 \seealso{\link{readbin}, \link{regions}, \link[raster]{crop}, \link{raster2matrix}, \link{param_unconvert}} 
 
@@ -30,8 +32,8 @@ Robert K. Bauer
 
 \examples{
 ## Example for selecting wrong area definition when saving files
-setwd(system.file("test_files", package="oceanmap"))
-gz.files <- Sys.glob('med4*.gz') # load sample-med4'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
 v(gz.files[1])
 
 fname <- name_split(gz.files[1])
@@ -43,13 +45,13 @@ v(gz.files[1])
 ### reset region name
 fname$area <- 'med9'
 fname <- name_join(fname)
-# writebin(gz,fname,param=param)
+# writebin(gz,fname,folder=path,param=param)
 # v(fname)
 # system(paste('rm', fname))
 
 ### multi layer raster file
 gz2 <- stack(gz,gz)
-# writebin(gz2,rep(gz.files[1],2),param) # error message since multi layer
-# writebin(gz,gz.files[1],param) # single layer raster file
+# writebin(gz2,rep(gz.files[1],2),folder=path,param) # error message since multi layer
+# writebin(gz,gz.files[1],folder=path,param) # single layer raster file
 # v(gz.files[1])
 }

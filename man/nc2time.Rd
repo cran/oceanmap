@@ -22,14 +22,12 @@ Robert K. Bauer
 
 
 \examples{
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-nfile <- Sys.glob('herring*.nc') # load sample-'.nc'-files
+path <- system.file("test_files", package="oceanmap")
+nfile <- Sys.glob(paste0(path,'/herring*.nc')) # load sample-'.nc'-files
 head(nc2time(nfile))
 
 library('ncdf4')
 nc <- nc_open(nfile)
 head(nc2time(nc))
 
-setwd(owd)
 }

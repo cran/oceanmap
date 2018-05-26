@@ -1,5 +1,8 @@
 oceanmap versions
 
+oceanmap_0.1.0 May 25, 2018 (Robert Bauer)
+        - fixing minor bugs in examples
+
 oceanmap_0.0.9 July 03, 2017 (Robert Bauer)
         - allowing cbpos-usage in v()-calls on gz-files
 

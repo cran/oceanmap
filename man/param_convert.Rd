@@ -31,8 +31,8 @@ Robert K. Bauer
 
 \examples{
 library('fields')
-setwd(system.file("test_files", package="oceanmap"))
-gz.file <- Sys.glob('*.gz')[1] # load sample-'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+gz.file <- Sys.glob(paste0(path,'/*.gz'))[1] # load sample-'.gz'-files
 param <- name_split(gz.file)$parameter
 print(param)
 

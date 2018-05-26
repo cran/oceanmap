@@ -1,7 +1,7 @@
-check_ts <- function(sstring='*.gz',output=F){
+check_ts <- function(sstring='*.gz',folder=".",output=F){
   
   #### check if unique time series was selected
-  check0 <- check <- check_gzfiles(sstring)
+  check0 <- check <- check_gzfiles(sstring,folder)
   if(nrow(check0) > 1) {
     check[,6] <- paste0(check[,6],check[,8])
     check <- cbind(files=check[,7],check[,1:6])
@@ -17,9 +17,11 @@ check_ts <- function(sstring='*.gz',output=F){
   
   #### check if daily time series selected
   if(check0$ts != "1d") warning("\n no daily time series selected\n")
-  
+    folder <- paste0(folder, "/"); folder <- gsub('//','/',folder)
+    sstring <- paste0(folder,sstring)
+
   n <- Sys.glob(sstring)
-  files.split <- name_split(n)
+  files.split <- name_split(gsub(folder,'',n))
   
   
   #### check for missing dates in the time series

@@ -40,10 +40,9 @@ Robert K. Bauer
 
 \examples{
 ### Example: read and plot '.gz'-file
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-check_gzfiles() # return file summary-table
-gz.files <- Sys.glob('*.gz') # load sample-'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+check_gzfiles(folder=path) # return file summary-table
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
 
 ### all manual:
 obj <- readbin(gz.files[2],area='lion')

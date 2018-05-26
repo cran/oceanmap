@@ -72,10 +72,9 @@ Herve Demarq, translated from IDL by Robert K. Bauer
 
 \examples{
 ## Example: read and plot '.gz'-file
-owd <- getwd()
-setwd(system.file("test_files", package="oceanmap"))
-check_gzfiles() # return file summary-table
-gz.files <- Sys.glob('*.gz') # load sample-'.gz'-files
+path <- system.file("test_files", package="oceanmap")
+gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
+check_gzfiles(folder=path) # return file summary-table
 
 # return summary of availble '.gz'-files
 # suffix-column corresponds to option column of the name_join-call
