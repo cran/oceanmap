@@ -1,5 +1,9 @@
 oceanmap versions
 
+oceanmap_0.1.1 Sept 18, 2019 (Robert Bauer)
+        - adding tiff-format to figure function
+        - fixed minor bug in figure function
+
 oceanmap_0.1.0 May 25, 2018 (Robert Bauer)
         - fixing minor bugs in examples
 

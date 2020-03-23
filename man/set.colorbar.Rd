@@ -10,8 +10,8 @@ Adds colorbar to an extisting plot device
 Adds colorbar to an extisting plot device. If position vectors are not provided, the user will be asked to define the colorbar placement by the mouse cursor.
 }
 \usage{
-set.colorbar(cbx, cby, cbpos, pal='jet', zlim, ticks=1:10, labels=ticks, gradient, 
-             oticks, cb.title="", cb.xlab="", font=1, cex=1, 
+set.colorbar(cbx, cby, cbpos, cbline=0, pal='jet', zlim, ticks=1:10, labels=ticks, 
+             gradient, oticks, cb.title="", cb.xlab="", font=1, cex=1, 
              cex.cb.title=0.9, cex.cb.xlab=0.8, cex.cb.ticks=0.7, cb.ticks.srt=90, 
              cb.ticks.length, cb.ticks.ypos, cb.ticks.lwd=1, 
              integer=F, cb.xlab.line=0, total.reg, cbxp, cbyp,...)
@@ -32,6 +32,11 @@ set.colorbarp(cbxp, cbyp, total.reg=T, year_bar=F, pal="jet",...)
   \item{cbpos}{
  letter ("b", "l", "t", "r") indicating the position of the colorbar (bottom, left, top, right). Overwrites \code{cbx} and \code{cby} values.
 }
+
+\item{cbline}{
+distance to default location of the colorbar, starting at 0.
+}
+
 
   \item{total.reg}{
 (\code{set.colorparp}-argument)

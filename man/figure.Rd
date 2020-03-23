@@ -25,6 +25,7 @@ figure(filename, folder, type, save=F, do.save=save,
   \item{"jpg"}
   \item{"jpeg"}
   \item{"png"}
+  \item{"tiff"}
   \item{"eps"}
   \item{"pdf"}
   } 
@@ -65,10 +66,10 @@ close_fig(do.save)
 width <- dev.size()[1]
 height <- dev.size()[2]
 
-do.save <- TRUE
-figure("Gulf_of_Lions_extended", do.save=do.save, width=width, height=height, type="pdf")
-plotmap("lion")
-close_fig(do.save)
+# do.save <- TRUE
+# figure("Gulf_of_Lions_extended", do.save=do.save, width=width, height=height, type="pdf")
+# plotmap("lion")
+# close_fig(do.save)
 
 
 

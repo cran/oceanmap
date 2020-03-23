@@ -27,11 +27,12 @@ Robert K. Bauer
 
 
 \examples{
-do.save <- TRUE
-figure("Gulf_of_Lions", do.save=do.save, width=5, height=5, type="pdf")
-plotmap("lion")
-close_fig(do.save)
+# do.save <- TRUE
+# figure("Gulf_of_Lions", do.save=do.save, width=5, height=5, type="pdf")
+# plotmap("lion")
+# close_fig(do.save)
 
+do.save <- TRUE
 plotmap("lion")
 close_fig(do.save)
 

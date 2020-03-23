@@ -13,8 +13,8 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
       stop("Error in add.region: oceanmap package found in multiple R libraries. Please define lib.folder.")
     }
   }
-  region_definitions.path <- paste0(lib.folder.oceanmap,"/data/region_definitions.rda")
-  if(file.exists(region_definitions.path)) load(region_definitions.path)
+  region_definitions_path <- paste0(lib.folder.oceanmap,"/data/region_definitions.RData")
+  if(file.exists(region_definitions_path)) load(region_definitions_path)
   
   data('region_definitions',envir=environment())
   ids <- nrow(region_definitions)
@@ -25,15 +25,19 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
       region_definitions <- region_definitions[i,]
       pfx <- paste0(paste0(backup.regions,collapse="_"),"_")
     }
-#     pfx <- backup.regions <- ""
-    if(missing(backup.name)) backup.name <- paste0(.check.folder(backup.folder),pfx,"region_definitions.bkp.",format(Sys.time(),format="%Y%m%d"),".rda")
+    pfx <- backup.regions <- ""
+    if(missing(backup.name)) backup.name <- paste0(.check.folder(backup.folder),pfx,"region_definitions.bkp.",format(Sys.time(),format="%Y%m%d"),".RData")
     cat(paste0("backup of region_definitions (",paste(backup.regions,collapse=", "),") saved in: ", backup.name))
-    save(region_definitions,file=backup.name)
+    region_definitions_bkp <- region_definitions
+    save(region_definitions_bkp,file=backup.name)
   }else{
     
     if(restore){
-      if(missing(backup.name)) backup.name <- paste0(lib.folder.oceanmap,"/data/region_definitions.bkp.rda")
-      system(paste('cp', backup.name, region_definitions.path))
+      if(missing(backup.name)) backup.name <- paste0(lib.folder.oceanmap,"/data/region_definitions_bkp.RData")
+      x <- load(backup.name)
+      region_definitions <- get(x)
+      save(region_definitions, file=region_definitions_path)
+      # system(paste('cp', backup.name, region_definitions_path))
       cat(paste("restoring of region_definitions from:", backup.name))
     }else{
       
@@ -163,7 +167,7 @@ add.region <- function(add, add.px, cbx, cby, figdim, lib.folder, widget=T,
         if(enter != "") stop("Operation stopped by user")
         cat(paste0('\nnew region added under label: ',new.region))
       }
-      save(region_definitions,file=region_definitions.path)
+      save(region_definitions,file=region_definitions_path)
     }
   }
 }

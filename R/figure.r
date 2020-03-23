@@ -13,17 +13,20 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     }
     folder <- gsub('//','/',folder)
     if(missing(type)) type <- 'png'
-    for(ftype in c('png','jpg','pdf','eps','jpg','jpeg')) {
+    for(ftype in c('png','jpg','pdf','eps','jpg','jpeg','tiff')) {
       if(grepl(paste0('.',ftype),filename)) {
         type <- ftype
         filename <- gsub(paste0('.',ftype),'',filename)
       }
     }
-    
+    # if(ftype != type) stop("figure type specifications are not coherent. Please revise! (see filename and type)")
+
     if(type == 'png') .save.png(filename=filename,folder=folder,width=width,height=height,delete.old=delete.old,...)
     if(type %in% c('jpg','jpeg')) .save.jpg(filename=filename,folder=folder,width=width,height=height,delete.old=delete.old,...)  
     if(type == 'pdf') .save.pdf(filename=filename,folder=folder,width=width,height=height,delete.old=delete.old,...)  
     if(type == 'eps') .save.eps(filename=filename,folder=folder,width=width,height=height,delete.old=delete.old,...)  
+    if(type == 'tiff') .save.tiff(filename=filename,folder=folder,width=width,height=height,delete.old=delete.old,...)  
+    
   }else{
     dev.new(width=width, height=height,xpos=xpos)
   }
@@ -99,6 +102,26 @@ figure <- function(filename,folder,type,save=F,do.save=save,
     warning("file with selected filename already exists and will be overwritten")
   }
   png(f,width=width, height=height,res=res,units=units,family=family)
+  cat(paste("generating",f,"\n"))
+}
+
+
+.save.tiff <- function(filename,folder=".",width=7,height=7,units="in",res=300,delete.old=T,family='Arial'){
+  if(folder != '.') system(paste("mkdir -p",folder)) # create folder if needed
+  if(!is.null(family)){
+    f <- fonts()
+    if(length(f) == 0) font_import()
+    # loadfonts() ## for cairo_pdf()
+    loadfonts(quiet = TRUE) ## for postscript
+  }
+  d <- format(Sys.Date(),format='%Y%m%d')
+  #   f <- paste0(.check.folder(folder),.check.point(filename),"_",d,".tiff")
+  f <- paste0(.check.folder(folder),.check.point(filename),".tiff")
+  if(file.exists(f)) {
+    if(!delete.old) stop("file with selected filename already exists!") 
+    warning("file with selected filename already exists and will be overwritten")
+  }
+  tiff(f,width=width, height=height,res=res,units=units,family=family)
   cat(paste("generating",f,"\n"))
 }
 

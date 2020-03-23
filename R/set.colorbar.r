@@ -1,4 +1,4 @@
-set.colorbar <- function(cbx, cby, cbpos, pal='jet',zlim,ticks=1:10,labels=ticks,gradient,oticks,cb.title="",cb.xlab="",font=1,cex=1,
+set.colorbar <- function(cbx, cby, cbpos, cbline=0, pal='jet',zlim,ticks=1:10,labels=ticks,gradient,oticks,cb.title="",cb.xlab="",font=1,cex=1,
                          cex.cb.title=0.9,cex.cb.xlab=0.8,cex.cb.ticks=0.7,
                          cb.ticks.srt=90,cb.ticks.length, cb.ticks.ypos, cb.ticks.lwd=1, integer=F,cb.xlab.line=0, total.reg, cbxp, cbyp,...){
   MODE <- 'normal'
@@ -102,7 +102,12 @@ set.colorbar <- function(cbx, cby, cbpos, pal='jet',zlim,ticks=1:10,labels=ticks
         ###
       }
     }
-    
+    if(gradient == 'x'){
+      cby <- cby+(cbline*diff(cby))/10
+    }else{
+      cbx <- cbx+(cbline*diff(cby))/10
+    }
+      
     plotrix::color.legend(cbx[1],cby[1],cbx[2],cby[2],"", cpalette,align="rb",gradient=gradient,xpd=T) #xl,yb,xr,yt
     
     if(gradient == 'x'){

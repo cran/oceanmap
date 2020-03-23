@@ -122,6 +122,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   
   #  # overplot landmask outside plotting region
   if(show.plot){
+    
     if(axes){
       rect(r$xlim[1],-400,r$xlim[1]-400,400,col="white",border="white",xpd=T) # xleft, ybottom, xright, ytop
       rect(r$xlim[2],-400,r$xlim[2]+400,400,col="white",border="white",xpd=T)
@@ -193,15 +194,15 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   
   for (x in 1:length(x1))
   {
-    rect(x1[x],yrange[1],x2[x],yrange[1]+fy,col=color[x%%2+1],xpd=T)
-    rect(x1[x],yrange[2],x2[x],yrange[2]-fy,col=color[x%%2+1],xpd=T)
+    rect(x1[x],yrange[1],x2[x],yrange[1]+fy,col=color[x%%2+1],xpd=T)# lower x-axis
+    rect(x1[x],yrange[2],x2[x],yrange[2]-fy,col=color[x%%2+1],xpd=T) # upper x-axis
   }
   y1 <- c(yrange[1],seq(ymin,ymax,sf))
   y2 <- c(seq(ymin,ymax,sf),yrange[2])
   for (y in 1:length(y1))
   {
-    rect(xrange[1],y1[y],xrange[1]+fx,y2[y],col=color[y%%2+1],xpd=T)
-    rect(xrange[2]-fx,y1[y],xrange[2],y2[y],col=color[y%%2+1],xpd=T)
+    rect(xrange[1],y1[y],xrange[1]+fx,y2[y],col=color[y%%2+1],xpd=T) ## left y-axis
+    rect(xrange[2]-fx,y1[y],xrange[2],y2[y],col=color[y%%2+1],xpd=T) ## right y-axis
   }
 }
 

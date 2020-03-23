@@ -43,6 +43,8 @@ nc2raster <- function(nc,varname,t=layer,lonname="lon",latname="lat",layer,date=
   lon <- as.vector(ncvar_get(nc,lonname)) # fillvalues are automatically replaced by NA
   lat <- as.vector(ncvar_get(nc,latname)) # fillvalues are automatically replaced by NA
   
+  # print(z)
+  # stop()
   z.raster <- matrix2raster(z,x=lon,y=lat)
   names(z.raster) <- dates
   #   z.raster <- brick(z.raster)

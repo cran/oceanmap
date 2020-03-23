@@ -12,7 +12,7 @@ delete.region <- function(region,lib.folder,restore=F){
       stop("error in add.region: oceanmap package found in multiple R libraries. please define lib.folder.")
     }
   }
-  region_definitions.path <- paste0(lib.folder.oceanmap,"/data/region_definitions.rda")
+  region_definitions.path <- paste0(lib.folder.oceanmap,"/data/region_definitions.RData")
   file.exists(region_definitions.path)
   
   if(restore){

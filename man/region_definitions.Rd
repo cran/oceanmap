@@ -1,6 +1,6 @@
 \name{region_definitions}
 \alias{region_definitions}
-\alias{region_definitions.bkp}
+\alias{region_definitions_bkp}
 
 \docType{data}
 \title{
