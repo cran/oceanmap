@@ -25,7 +25,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   }
   
   if(!missing(region)){ #' if region information is given
-    if(class(region) == 'character') {
+    if(extends(class(region), 'character')){
       r <- regions(region) # get regions defintions/2 (extent and name)
       #       center <- r$center ## no longer needed!
       if(missing(grid.res)) grid.res <- r$grid.res[1]
@@ -81,7 +81,7 @@ plotmap <- function(region=v_area, lon=xlim, lat=ylim, add=F, asp,
   if(any(r$xlim > 540)) r$xlim <- r$xlim -360
   
   ### calculate default projection from map-package
-  xrange <- r$xlim; yrange <- r$ylim; myborder <- 0.01
+  xrange <- r$xlim; yrange <- r$ylim; 
   aspect <- c(cos((mean(yrange) * pi)/180), 1)
   #     plot.window(xrange, yrange, asp = 1/aspect[1])  
   if(missing(asp)) asp <- 1/aspect[1]

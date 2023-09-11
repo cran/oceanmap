@@ -27,10 +27,10 @@ See also \link{name_split} for further information on \code{'.gz'}-file nomencla
   savename.bathy, folder.bathy=".", adaptive.vals=T, cb.title, show.colorbar=T,...)
 
 \S4method{v}{nc}(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
-  cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T ,...)
+  cb.xlab=varname, show.colorbar=T ,...)
 
 \S4method{v}{ncdf4}(obj, varname, t=1, layer=t, adaptive.vals=T, dates, 
-  cb.xlab=varname, lonname="lon", latname='lat', show.colorbar=T, ...)
+  cb.xlab=varname, show.colorbar=T, ...)
 
 \S4method{v}{RasterLayer}(obj, varname, t=1, layer=t, ...)
 
@@ -74,14 +74,6 @@ character string indicating the title of the colorbar (default is set to date in
 
  \item{cb.xlab}{
 character string indicating the x-axis label of the colorbar and \code{cb.xlab.line} its placement line (default is 0). If not defined, it will be set to \code{varname} for \link[raster]{raster}, \code{ncdf4}-objects and \code{'.nc'}-files or for \code{'.gz'}-files to a predefined title in the \link{parameter_definitions}-dataset according to the \code{param}-value.
-}
-
- \item{lonname}{
- character string indicating the name of the longitude-variable of \code{ncdf4}-objects and \code{'.nc'}-files to plot (default is \code{'lon'})
-}
- 
- \item{latname}{
- character string indicating the name of the latitude-variable of \code{ncdf4}-objects and \code{'.nc'}-files to plot (default is \code{'lat'})
 }
 
  \item{lon}{
@@ -301,11 +293,11 @@ ncdf <- nc_open(nfiles[1])
 # ## b) only contour lines:
 # par(mfrow=c(1,2))
 # h <- get.bathy("lion",terrain=F,res=3, visualize=T,
-#                subplot=T, v_image = FALSE, levels=c(200,2000))
+#                v_image = FALSE, levels=c(200,2000))
 # 
 # ## use v-function for same plot but on subregion:
 # v(h,v_area = "survey", param="bathy",
-#   subplot=T, v_image = FALSE, levels=c(200,2000)) 
+#   v_image = FALSE, levels=c(200,2000)) 
 
 
 ## Example 3: plot sample-'.gz'-file
@@ -355,10 +347,10 @@ names(parameter_definitions)
 ## Example I: plot bathymetry using a v_area-keyword
 ## requires server connection!
 # par(mfrow=c(2,1))
-# v("bathy","lion",res=4, keep=TRUE,border='grey',subplot=TRUE, 
+# v("bathy","lion",res=4, keep=TRUE,border='grey', 
 #   main='Gulf of Lions bathymetry',cb.title="resolution 4 min")
 
-# v("bathy","lion",res=1, keep=TRUE,border='grey',subplot=TRUE,
+# v("bathy","lion",res=1, keep=TRUE,border='grey',
 #   cb.title="resolution 1 min")  # can take some time depending on server connection!
 
 
@@ -390,7 +382,7 @@ gz.files <- Sys.glob(paste0(path,'/*.gz')) # load sample-'.gz'-files
 ## Example VI: plot subregion of gz-files as subplots
 # graphics.off()
 # par(mfrow=c(2,1))
-# v(gz.files[1:2],v_area='lion',subplot=TRUE) # run ?region_definitions to see predefined regions
+# v(gz.files[1:2],v_area='lion') # run ?region_definitions to see predefined regions
 
 
 ## Example VII: plot subregion of raster file

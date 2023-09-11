@@ -26,17 +26,33 @@ set.colorbarp <- function(cbxp,cbyp,total.reg=T,year_bar=F,pal="jet",...){
     
     if(any(cbxp > 1)) cbxp <- cbxp/100
     if(any(cbyp > 1)) cbyp <- cbyp/100
-    
+    opar <- par()
+    usr <- par()$usr
     if(total.reg){
       opar <- par()
       par(new=T,mar=c(0,0,0,0),fig=c(0,1,0,1),xaxs='i',yaxs='i')
+      empty.plot(xlim=c(0,1),ylim=c(0,1))
     }else{
+      # opar <- par2 <- par()
+      # par2$mar <- c(0,0,0,0); par2$xaxs='i'; par2$yaxs='i'
+      # par(par2, new=T)
       par(new=T,mar=c(0,0,0,0),xaxs='i',yaxs='i')
+      empty.plot(xlim=c(0,1),ylim=c(0,1))
+      # usr <- par()$usr
+      # xdiff <- usr[2]-usr[1]
+      # cbxp <- usr[1]+xdiff*cbxp
+      # 
+      # ydiff <- usr[4]-usr[3]
+      # cbyp <- usr[3]+ydiff*cbyp
+      # print(usr)
+      # print(cbyp)
     }
-    empty.plot(xlim=c(0,1),ylim=c(0,1))
+    # empty.plot(xlim=c(0,1),ylim=c(0,1))
     
     set.colorbar(cbx=cbxp,cby=cbyp,pal=pal,...)
-    if(total.reg) suppressWarnings(par(opar))
+    # if(total.reg) suppressWarnings(par(opar))
+    # suppressWarnings(par(opar))
+    par(mar=opar$mar, usr=opar$usr, xaxs=opar$xaxs, yaxs=opar$yaxs, new=F)
   }
 }
 
