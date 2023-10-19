@@ -1,6 +1,6 @@
-4bd4f2650763d713883f5f16b754471d *ChangeLog
-32d0e55c862329c58d9eaacae26f5bdb *DESCRIPTION
-cb15e4c1dc994467e21730d24d2b7bf2 *NAMESPACE
+78bf8d52ba5392d6cb9c3127a5edb6ab *ChangeLog
+2aab908189d439b93e63dad6c6be991b *DESCRIPTION
+94031f7ee67ab226cbc1acf6002b0333 *NAMESPACE
 171c683071696985646be45a41d5bb5a *R/SpatialCircle.r
 9e11a9d94ceae274be36f6c5cd5cb759 *R/add.region.r
 5af3208a8cbf6634dbd130c5895892c7 *R/area_extrac.r
@@ -23,7 +23,7 @@ d9bce8896cbf9cf6b42b9603d6be8e5e *R/get.bathy.r
 d7239065e76d2c7eb5e178516485042e *R/get.worldmap.r
 2984722b4c464dae199c47f00a26d0bc *R/ggplotmap_sf.r
 06d1eb0bbdeab2148ec8861233ae581d *R/ggplotmaply.r
-adc3ddad89970a1bea2950a267698fee *R/hidden.r
+86919f98f4943bfb61806c875e04e23f *R/hidden.r
 76a2201b883533d8ec06ce6d00d5d493 *R/matrix2raster.r
 c160c6a073de52c1e59305d3dea8ba14 *R/name_join.r
 30016e2edb37a27711a2c85d62351e8d *R/name_split.r
@@ -50,7 +50,7 @@ b2242543c057fec77f9443e9f58e12b9 *R/writebin.r
 add92547506cfe74d11deca9e2eed970 *data/parameter_definitions.RData
 e0c54834d27c64c88c8002b2080a37de *data/region_definitions.RData
 bf479a59a650cb6f6a54d01875fe9d81 *data/region_definitions_bkp.RData
-66c445420ff81b6b00e5ac4b49d54ba5 *inst/doc/oceanmap.pdf
+21b5aee103b9b19fd1fb77cf0129e91d *inst/doc/oceanmap.pdf
 f680d9aafbd9fef4c8a3ba4b78644248 *inst/test_files/copyrights
 9670ead9d281a00ad59e91012e0885e7 *inst/test_files/herring_lavae.nc
 c172104eccf8702f729518569e5c0da7 *inst/test_files/med4_avhrr_p100_4km_1m_20030601_20030630.smoothgrad.0.04-3-5.edge.gz
@@ -86,14 +86,14 @@ efe3d26e6af09d8c4f62e25345c226db *man/get.bathy.Rd
 b6e15e9305d245757db66e4d621831ba *man/ggplotmaply.Rd
 0d96116cc201d9622bd353283c2b8bc7 *man/internal.datasets.Rd
 eb7c3ab24cc294c2cbf3608d8f25eb68 *man/matrix2raster.Rd
-dce80944d4269344a9d6dce85fadf3d2 *man/name_join.Rd
+2eaa5b06913e5332ac9bd0ab3ef83857 *man/name_join.Rd
 18cb3a587cb8ace88b86acfc1bdd191a *man/name_split.Rd
 b9dc6f0fe865cc62a715013bc386dd39 *man/nc2raster.Rd
 89c962dbbff9a6cb9c687105e5ddcc54 *man/nc2time.Rd
-f02c9a4ac10b3283dc0a5e3102bf5415 *man/oceanmap.Rd
+8edfe6c4a2135de191e181da3e0f24de *man/oceanmap.Rd
 2804c9e1d27a4e4f76b6de4850b1d2a0 *man/param_convert.Rd
 b65cefb5e64980c3c47f5499b5e79449 *man/parameter_definitions.Rd
-bb0231d388123c1ebf9cc9165b22284d *man/plotmap.Rd
+2e888d44c3c53d2ccce93a366124f3ea *man/plotmap.Rd
 07ceae767b6767dba377e241b3467da0 *man/raster2matrix.Rd
 786ea0207b17a0d5bd5b3e7b13fc8275 *man/readbin.Rd
 eff9cc6ecf523e83f77f2c70b8499192 *man/region2SpatialPolygon.Rd
